@@ -12,8 +12,6 @@ endif::[]
 
 = `kiba-extend` project sample
 
-toc::[]
-
 A sample base project using https://github.com/lyrasis/kiba-extend/[`kiba-extend`].
 
 Includes heavily commented/explained code for:
@@ -25,6 +23,8 @@ Includes heavily commented/explained code for:
 ** https://github.com/lyrasis/kiba-extend-project/blob/main/lib/ke_project/transforms/locations/loc_name_reverser.rb[defining]
 ** https://github.com/lyrasis/kiba-extend-project/blob/main/spec/ke_project/transforms/locations/loc_name_reverser_spec.rb[testing]
 ** https://github.com/lyrasis/kiba-extend-project/blob/4e4458ee7a9ed7e56e0a5e88b82a3b6bcf1fc89d/lib/ke_project/source_system/locations.rb#L40[using in jobs]
+
+toc::[]
 
 == Prerequisites
 
