@@ -1,0 +1,6 @@
+Gemfile.lock
+.rspec_status
+.yardoc/
+docs
+data/backup
+**/*.csv#

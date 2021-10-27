@@ -1,0 +1,7 @@
+Placeholder directory for any project-specific Thor tasks you may want to create.
+
+I do not have any examples of what project-specific Thor tasks might look like, as I haven't used them yet.
+
+The code for the Thor tasks you inherit from kiba-extend are at:
+
+https://github.com/lyrasis/kiba-extend/tree/main/lib/tasks

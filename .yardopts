@@ -1,0 +1,9 @@
+-o docs
+--readme README.adoc
+--title 'FWM Migration Documentation'
+--charset utf-8
+--no-private
+--markup asciidoc
+--tag decision:"DECISION"
+--tag outputtype:"OUTPUT TYPE"
+--tag manual:"MANUAL WORK"

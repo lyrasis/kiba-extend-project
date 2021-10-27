@@ -1,0 +1,67 @@
+= `kiba-extend` project sample
+
+== Getting started
+
+You must have a modern Ruby installed. This should work with 2.7.4 and up.
+
+TIP: It is highly recommended you use a version manager. The author is using https://github.com/rbenv/rbenv[rbenv].
+
+Create a repository for your project https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template[using this repository as a template].
+
+In your new repository, global find/replace `KeProject` and `ke_project` with your project name.
+
+[NOTE]
+.Ruby conventions for naming
+====
+Camel case is for names of modules and classes in your code.
+
+When naming files that correspond to said modules or classes, you downcase and separate with underscore instead of camel casing.
+====
+
+Configure your project settings in your `lib/ke_project.rb` equivalent.
+
+In your terminal, `cd` into the top level of your repository and do `bundle install`
+
+Now you should be able to run some thor tasks for the project. In your terminal, get a list of the project's defined files/jobs:
+
+`thor reg:list`
+
+Run the `auth__loc__json` job (which has the effect of running all other jobs as its dependencies):
+
+`thor run:job auth__loc__json`
+
+More about the thor CLI https://lyrasis.github.io/kiba-extend/file.cli.html[here].
+
+Run the tests!
+
+`rspec`
+
+or
+
+`bundle exec rake spec`
+
+[NOTE]
+.Code organization
+====
+With the exception of `registry_data.rb` and `util.rb`, the structure of directories and files in `lib/ke_project` is completely arbitrary. You could put all your project code in one big .rb file if you wanted to.
+
+The author has thus far found it useful to set up the structure has shown here, which follows the basic organization within the top-level module for the project:
+
+* a module for each data source system
+** a submodule for each spreadsheet or table or other meaningful grouping in source system, named after said table/file. This is used for the initial cleanup/prep of that data---removing fields that won't be used, merging in values for ID lookups, etc.
+* a module for the target system
+** a submodule for each type of record/data that will migrate into the target system. Reshaping or combination of source data into the format required by target system
+
+In reality the distinctions between the kind of logic in the source system and target system submodules will not be clear at all. I'm leaning more and more toward putting almost everything in the source system code, and using the target system submodules to handle any final field renaming, removal of non-importing columns, ordering of columns, and global find/replaces (changing `"%CR%"` to `"\n\n"`, etc.
+
+Each submodule file may contain the methods for a bunch of different jobs.
+====
+
+
+== More documentation
+
+* https://lyrasis.github.io/kiba-extend/[kiba-extend documentation]
+** transforms
+*** https://lyrasis.github.io/kiba-extend/Kiba/Extend/Transforms.html[documentation]
+*** a lot of the documentation still needs to be written, but all the examples in the docs are tested in the kiba-extend spec. Consult https://github.com/lyrasis/kiba-extend/tree/main/spec/kiba/extend/transforms[the tests] for examples of what each undocumented transform does. 
+** https://lyrasis.github.io/kiba-extend/file.file_registry_entry.html[data registry entry reference]
