@@ -26,9 +26,9 @@ Now you should be able to run some thor tasks for the project. In your terminal,
 
 `thor reg:list`
 
-Run the `auth__loc__json` job (which has the effect of running all other jobs as its dependencies):
+Run the `auth\__loc__json` job (which has the effect of running all other jobs as its dependencies):
 
-`thor run:job auth__loc__json`
+`thor run:job auth\__loc__json`
 
 More about the thor CLI https://lyrasis.github.io/kiba-extend/file.cli.html[here].
 
