@@ -62,6 +62,11 @@ module KeProject
             desc: 'Location values from source system, cleaned up for further mapping',
             tags: %i[authority location]
           }
+
+          # All the other registry entries for jobs output CSV, which is our project's
+          #   default destination type.
+          # This job outputs to a different destination type, so we need to tell it what
+          #   destination class to use
           register :json, {
             path: File.join(KeProject.datadir, 'endpoint', 'locations.json'),
             dest_class: Kiba::Extend::Destinations::JsonArray,

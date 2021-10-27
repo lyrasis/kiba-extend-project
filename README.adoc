@@ -1,10 +1,77 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
 = `kiba-extend` project sample
 
-== Getting started
+toc::[]
+
+A sample base project using https://github.com/lyrasis/kiba-extend/[`kiba-extend`].
+
+Includes heavily commented/explained code for:
+
+* https://github.com/lyrasis/kiba-extend-project/blob/main/lib/ke_project.rb[configuring your project]
+* https://github.com/lyrasis/kiba-extend-project/blob/main/lib/ke_project/registry_data.rb[registering your project's jobs/files]
+* https://github.com/lyrasis/kiba-extend-project/blob/main/lib/ke_project/target_system/locations.rb[defining the jobs]
+* project-specific kiba transforms
+** https://github.com/lyrasis/kiba-extend-project/blob/main/lib/ke_project/transforms/locations/loc_name_reverser.rb[defining]
+** https://github.com/lyrasis/kiba-extend-project/blob/main/spec/ke_project/transforms/locations/loc_name_reverser_spec.rb[testing]
+** https://github.com/lyrasis/kiba-extend-project/blob/4e4458ee7a9ed7e56e0a5e88b82a3b6bcf1fc89d/lib/ke_project/source_system/locations.rb#L40[using in jobs]
+
+== Prerequisites
 
 You must have a modern Ruby installed. This should work with 2.7.4 and up.
 
 TIP: It is highly recommended you use a version manager. The author is using https://github.com/rbenv/rbenv[rbenv].
+
+== Try it out
+
+=== Set it up
+
+Clone this repository.
+
+`cd` into the top level of your repository.
+
+Do `bundle install`
+
+=== Try some commands
+
+Now you should be able to run the thor tasks for the project. In your terminal, get a list of the project's defined files/jobs:
+
+`thor reg:list`
+
+Run the `auth\__loc__json` job (which has the effect of running all other jobs as its dependencies):
+
+`thor run:job auth\__loc__json`
+
+More about the thor CLI https://lyrasis.github.io/kiba-extend/file.cli.html[here].
+
+=== Run the tests
+
+`rspec`
+
+or
+
+`bundle exec rake spec`
+
+=== Explore the code and the data
+
+The code is heavily commented to explain what things are doing.
+
+To understand the relationship between `lib/ke_project/registry_data.rb` and setting up jobs, I recommend you start by looking at that file and `lib/ke_project/target_system/locations.rb`, which has more comments explaining this. Then look at `lib/ke_project/source_system/locations.rb` for a variant approach.
+
+The source and destination files are in the specified locations, so you can see the results of the example jobs.
+
+
+== Start your own project
 
 Create a repository for your project https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template[using this repository as a template].
 
@@ -18,27 +85,11 @@ Camel case is for names of modules and classes in your code.
 When naming files that correspond to said modules or classes, you downcase and separate with underscore instead of camel casing.
 ====
 
+Run `bundle install` in your repo directory.
+
 Configure your project settings in your `lib/ke_project.rb` equivalent.
 
-In your terminal, `cd` into the top level of your repository and do `bundle install`
-
-Now you should be able to run some thor tasks for the project. In your terminal, get a list of the project's defined files/jobs:
-
-`thor reg:list`
-
-Run the `auth\__loc__json` job (which has the effect of running all other jobs as its dependencies):
-
-`thor run:job auth\__loc__json`
-
-More about the thor CLI https://lyrasis.github.io/kiba-extend/file.cli.html[here].
-
-Run the tests!
-
-`rspec`
-
-or
-
-`bundle exec rake spec`
+Start setting up and running jobs!
 
 [NOTE]
 .Code organization
