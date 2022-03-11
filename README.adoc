@@ -28,7 +28,7 @@ toc::[]
 
 == Prerequisites
 
-You must have a modern Ruby installed. This should work with 2.7.4 and up.
+You must have a modern Ruby installed. This should work with 3.1.0 and up.
 
 TIP: It is highly recommended you use a version manager. The author is using https://github.com/rbenv/rbenv[rbenv].
 
@@ -41,6 +41,8 @@ Clone this repository.
 `cd` into the top level of your repository.
 
 Do `bundle install`
+
+OPTIONAL: Add `kiba-extend-project/bin` to your PATH so you can run commands without needing to type `bundle exec` each time.
 
 === Try some commands
 
@@ -115,4 +117,4 @@ Each submodule file may contain the methods for a bunch of different jobs.
 ** transforms
 *** https://lyrasis.github.io/kiba-extend/Kiba/Extend/Transforms.html[documentation]
 *** a lot of the documentation still needs to be written, but all the examples in the docs are tested in the kiba-extend spec. Consult https://github.com/lyrasis/kiba-extend/tree/main/spec/kiba/extend/transforms[the tests] for examples of what each undocumented transform does. 
-** https://lyrasis.github.io/kiba-extend/file.file_registry_entry.html[data registry entry reference]
+** https://lyrasis.github.io/kiba-extend/file_list.html[List of non-code-specific documentation pages] that give a bigger picture explanation, or provide a reference
