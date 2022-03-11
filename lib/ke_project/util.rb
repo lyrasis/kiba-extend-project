@@ -3,8 +3,9 @@
 module KeProject
   # Utility methods for FWM migration
   module Util
-    extend self
-    # Backs up working files
+    module_function
+    
+    # @todo move to kiba-extend?
     def backup_working_files
       timestamp = Time.now.strftime("%y-%m-%d_%H-%M")
       backupdir = File.join(KeProject.datadir, 'backup')

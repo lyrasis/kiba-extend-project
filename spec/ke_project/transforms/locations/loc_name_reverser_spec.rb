@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 RSpec.describe KeProject::Transforms::Locations::LocNameReverser do
   let(:accumulator){ [] }
   let(:test_job){ Helpers::TestJob.new(input: input, accumulator: accumulator, transforms: transforms) }
