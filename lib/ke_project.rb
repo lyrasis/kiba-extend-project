@@ -1,28 +1,38 @@
 # frozen_string_literal: true
 
-require 'amazing_print'
-require 'dry-configurable'
-require 'kiba'
-require 'kiba-common/sources/csv'
-require 'kiba-common/destinations/csv'
-require 'kiba-common/dsl_extensions/show_me'
 require 'kiba/extend'
-require 'active_support'
-require 'active_support/core_ext/object'
-
-# dev
-require 'pry'
-
-require_relative 'ke_project/util'
-require_relative 'ke_project/registry_data'
+require 'zeitwerk'
 
 # Namespace for the overall project
 module KeProject
   extend Dry::Configurable
 
+  class << self
+    # @return Zeitwerk::Loader
+    # Zeitwerk obviates the need to manually require project files repeatedly within the project
+    def loader
+      @loader ||= setup_loader
+    end
+
+    # Creates Zeitwerk::Loader, making it reloadable
+    private def setup_loader
+              @loader = Zeitwerk::Loader.for_gem
+              @loader.enable_reloading
+              @loader.setup
+              @loader
+            end
+
+    # Will reload project code. Useful when working in console
+    def reload!
+      @loader.reload
+    end
+  end
+
+  self.loader
+  
   # OVERRIDE KIBA::EXTEND'S DEFAULT OPTIONS
   # See kiba-extend/lib/kiba/extend.rb for more explanation of available options. Any of the options set there
-  #   (with the `setting` command) can be overridden here, however it is highly recommended you DO NOT
+  #   (with the `setting` command) can be overridden here, however it is **highly recommended** you DO NOT
   #   override the `registry` setting
 
   # By default, kiba-extend downcases and symbolizes CSV headers, but does not apply any CSV content
@@ -36,7 +46,7 @@ module KeProject
   #   were initially written using that delimiter. Many transforms that need a `sep` or `delim` argument default
   #   to the Kiba::Extend.delim value if not explicitly set when you call a transformation. Overriding this with
   #   your project's delimiter means it will be used.
-  # Kiba::Extend.config.delim = '|'
+  Kiba::Extend.config.delim = '|'
 
   # kiba-extend's default destination is Kiba::Extend::Destinations::CSV. This means if we want to use that
   #   destination for everything (or most things), we don't have to specify it explicitly in every job
@@ -48,7 +58,6 @@ module KeProject
   # Kiba::Extend.config.job.verbosity = :debug
 
   # CONFIGURE KEPROJECT'S DEFAULTS
-
   # We overrode this above so we can avoid typing out the `delim` or `sep` keyword argument when we
   #   set up our transforms. We set it locally so we can type `KeProject.delim` where we need it in
   #   our code instead of `Kiba::Extend.delim`. You could also go wild and set it to a different string
@@ -78,12 +87,6 @@ module KeProject
   # File registry - best to just leave this as-is
   setting :registry, default: Kiba::Extend.registry, reader: true
   
-  
-  # Require all application files
-  Dir.glob("#{__dir__}/ke_project/**/*").sort.select{ |path| path.match?(/\.rb$/) }.each do |rbfile|
-    require_relative rbfile.delete_prefix("#{File.expand_path(__dir__)}/").delete_suffix('.rb')
-  end
-
   KeProject::Util.backup_working_files if KeProject.backup_mode == :job
 
   KeProject::RegistryData.register

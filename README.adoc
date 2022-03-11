@@ -28,7 +28,7 @@ toc::[]
 
 == Prerequisites
 
-You must have a modern Ruby installed. This should work with 2.7.4 and up.
+You must have a modern Ruby installed. This should work with 3.1.0 and up.
 
 TIP: It is highly recommended you use a version manager. The author is using https://github.com/rbenv/rbenv[rbenv].
 
@@ -41,6 +41,8 @@ Clone this repository.
 `cd` into the top level of your repository.
 
 Do `bundle install`
+
+OPTIONAL: Add `kiba-extend-project/bin` to your PATH so you can run commands without needing to type `bundle exec` each time.
 
 === Try some commands
 
@@ -92,11 +94,11 @@ Configure your project settings in your `lib/ke_project.rb` equivalent.
 Start setting up and running jobs!
 
 [NOTE]
-.Code organization
+.Code organization of job definitions (modules)
 ====
-With the exception of `registry_data.rb` and `util.rb`, the structure of directories and files in `lib/ke_project` is completely arbitrary. You could put all your project code in one big .rb file if you wanted to.
+With the exception of `registry_data.rb` and `util.rb`, the structure of directories and files in `lib/ke_project` is fairly arbitrary, in the sense of how you name and structure modules and submodules, and what methods you define in different modules. For example, you _could_ define all your jobs in one big module if you wanted.
 
-The author has thus far found it useful to set up the structure has shown here, which follows the basic organization within the top-level module for the project:
+However, the author has thus far found it useful to set up the structure has shown here, which follows the basic organization within the top-level module for the project:
 
 * a module for each data source system
 ** a submodule for each spreadsheet or table or other meaningful grouping in source system, named after said table/file. This is used for the initial cleanup/prep of that data---removing fields that won't be used, merging in values for ID lookups, etc.
@@ -108,6 +110,11 @@ In reality the distinctions between the kind of logic in the source system and t
 Each submodule file may contain the methods for a bunch of different jobs.
 ====
 
+[IMPORTANT]
+.Further note on code organization
+====
+The addition of Zeitwerk to handle code loading introduces a bit more constraint on how you can organize your code. As long as you follow common Ruby conventions of defining one module or class per file, and naming the file after the module or class it defines, you should be good. See https://github.com/fxn/zeitwerk#file-structure[Zeitwerk's file structure documentation] for more deatils.
+====
 
 == More documentation
 
@@ -115,4 +122,4 @@ Each submodule file may contain the methods for a bunch of different jobs.
 ** transforms
 *** https://lyrasis.github.io/kiba-extend/Kiba/Extend/Transforms.html[documentation]
 *** a lot of the documentation still needs to be written, but all the examples in the docs are tested in the kiba-extend spec. Consult https://github.com/lyrasis/kiba-extend/tree/main/spec/kiba/extend/transforms[the tests] for examples of what each undocumented transform does. 
-** https://lyrasis.github.io/kiba-extend/file.file_registry_entry.html[data registry entry reference]
+** https://lyrasis.github.io/kiba-extend/file_list.html[List of non-code-specific documentation pages] that give a bigger picture explanation, or provide a reference
