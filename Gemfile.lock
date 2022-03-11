@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/lyrasis/kiba-extend.git
-  revision: 189ba118df5d7021d77ead50cada15794ea85fe6
+  revision: 16e1d0822a3a2fbc58bc3717a0ab0cf31f40c00f
   branch: main
   specs:
-    kiba-extend (2.7.0)
+    kiba-extend (2.7.1)
       activesupport (~> 6)
       amazing_print (~> 1.4)
       csv (~> 3)
@@ -74,7 +74,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 2.3.9)
-  kiba-extend (~> 2.7.0)!
+  kiba-extend (~> 2.7.1)!
   pry (~> 0.13.0)
   rake (~> 12.0)
   rspec (~> 3.11)
