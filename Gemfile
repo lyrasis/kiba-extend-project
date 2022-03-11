@@ -6,5 +6,5 @@ gem 'kiba-extend', '~> 2.7.0', :github => 'lyrasis/kiba-extend', :branch => 'mai
 gem 'bundler', '~> 2.3.9'
 gem 'pry', '~> 0.13.0'
 gem 'rake', '~> 12.0'
-gem 'rspec', '~> 3.0'
+gem 'rspec', '~> 3.11'
 
