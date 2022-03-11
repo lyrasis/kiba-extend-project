@@ -1,24 +1,29 @@
 # frozen_string_literal: true
 
-require 'amazing_print'
-require 'dry-configurable'
-require 'kiba'
-require 'kiba-common/sources/csv'
-require 'kiba-common/destinations/csv'
-require 'kiba-common/dsl_extensions/show_me'
 require 'kiba/extend'
-require 'active_support'
-require 'active_support/core_ext/object'
-
-# dev
-require 'pry'
-
-require_relative 'ke_project/util'
-require_relative 'ke_project/registry_data'
 
 # Namespace for the overall project
 module KeProject
   extend Dry::Configurable
+
+  # @return Zeitwerk::Loader
+  # Zeitwerk obviates the need to manually require project files repeatedly within the project
+  def loader
+    @loader ||= setup_loader
+  end
+
+  # Creates Zeitwerk::Loader, making it reloadable
+  private def setup_loader
+            @loader = Zeitwerk::Loader.for_gem
+            @loader.enable_reloading
+            @loader.setup
+            @loader
+          end
+
+  # Will reload project code. Useful when working in console
+  def reload!
+    @loader.reload
+  end
 
   # OVERRIDE KIBA::EXTEND'S DEFAULT OPTIONS
   # See kiba-extend/lib/kiba/extend.rb for more explanation of available options. Any of the options set there
