@@ -5,29 +5,29 @@ require 'kiba/extend'
 # Namespace for the overall project
 module KeProject
   extend Dry::Configurable
+  module_function
 
-  class << self
-    # @return Zeitwerk::Loader
-    # Zeitwerk obviates the need to manually require project files repeatedly within the project
-    def loader
-      @loader ||= setup_loader
-    end
-
-    # Creates Zeitwerk::Loader, making it reloadable
-    private def setup_loader
-              @loader = Zeitwerk::Loader.for_gem
-              @loader.enable_reloading
-              @loader.setup
-              @loader
-            end
-
-    # Will reload project code. Useful when working in console
-    def reload!
-      @loader.reload
-    end
+  # @return Zeitwerk::Loader
+  # Zeitwerk obviates the need to manually require project files repeatedly within the project
+  def loader
+    @loader ||= setup_loader
   end
 
-  self.loader
+  # Creates Zeitwerk::Loader, making it reloadable
+  private def setup_loader
+            @loader = Zeitwerk::Loader.for_gem
+            @loader.enable_reloading
+            @loader.setup
+            @loader.eager_load
+            @loader
+          end
+
+  # Will reload project code. Useful when working in console
+  def reload!
+    @loader.reload
+  end
+
+  loader
   
   # OVERRIDE KIBA::EXTEND'S DEFAULT OPTIONS
   # See kiba-extend/lib/kiba/extend.rb for more explanation of available options. Any of the options set there
