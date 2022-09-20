@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'kiba/extend'
-require 'zeitwerk'
 
 # Namespace for the overall project
 module KeProject
