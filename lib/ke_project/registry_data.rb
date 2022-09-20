@@ -7,8 +7,9 @@ module KeProject
   module RegistryData
     def self.register
       register_files
-      KeProject.registry.transform # Transforms the file hashes below into Kiba::Extend::Registry::FileRegistryEntry objects
-      KeProject.registry.freeze # Data in registry is immutable for the rest of the application's run
+      # Transforms the file hashes below into Kiba::Extend::Registry::FileRegistryEntry objects and
+      #   ensures data in registry is immutable for the rest of the application's run
+      KeProject.registry.finalize 
     end
 
     # Where you enter data about all the jobs/files in your project
