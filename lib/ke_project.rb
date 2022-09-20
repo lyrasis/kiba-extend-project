@@ -4,7 +4,6 @@ require 'kiba/extend'
 
 # Namespace for the overall project
 module KeProject
-  extend Dry::Configurable
   module_function
 
   # @return Zeitwerk::Loader
@@ -29,64 +28,75 @@ module KeProject
 
   loader
   
-  # OVERRIDE KIBA::EXTEND'S DEFAULT OPTIONS
+  extend Dry::Configurable
+  # ## OVERRIDE KIBA::EXTEND'S DEFAULT OPTIONS
+  #
+  # The Kiba::Extend settings include:
+  #
+  # - Default settings for source and destination types (:csvopts, :source, :destination, etc)
+  # - Default values used across transforms (:delim, :sgdelim, :nullvalue)
+  # - Default settings for job definition and job run behavior
+  # 
   # See kiba-extend/lib/kiba/extend.rb for more explanation of available options. Any of the options set there
   #   (with the `setting` command) can be overridden here, however it is **highly recommended** you DO NOT
   #   override the `registry` setting
+  #
+  # Here we override the default Kiba::Extend :delim setting:
+  Kiba::Extend.config.delim = ';'
 
-  # By default, kiba-extend downcases and symbolizes CSV headers, but does not apply any CSV content
-  #   converters. Uncommenting this will cause the `stripplus` and `nulltonil` CSV converters defined
-  #   in kiba-extend to be applied to all your CSV data
-  # Kiba::Extend.config.csvopts = {headers: true,
-  #                                header_converters: [:symbol, :downcase],
-  #                                converters: %i[stripplus nulltonil]}
-
-  # kiba-extend's default delimiter for the primary/initial split/join level in data is `;`. A bunch of tests
-  #   were initially written using that delimiter. Many transforms that need a `sep` or `delim` argument default
-  #   to the Kiba::Extend.delim value if not explicitly set when you call a transformation. Overriding this with
-  #   your project's delimiter means it will be used.
-  Kiba::Extend.config.delim = '|'
-
-  # kiba-extend's default destination is Kiba::Extend::Destinations::CSV. This means if we want to use that
-  #   destination for everything (or most things), we don't have to specify it explicitly in every job
-  #   we register in `lib/ke_project/registry_data.rb`. If we want to use a different destination by default:
-  # Kiba::Extend.config.destination = Kiba::Extend::Destinations::JsonArray
-
-  # kiba-extend defaults to normal verbosity of STDOUT when running jobs, but while you are developing
-  #   a project, the debug level can be helpful
-  # Kiba::Extend.config.job.verbosity = :debug
-
-  # CONFIGURE KEPROJECT'S DEFAULTS
-  # We overrode this above so we can avoid typing out the `delim` or `sep` keyword argument when we
-  #   set up our transforms. We set it locally so we can type `KeProject.delim` where we need it in
-  #   our code instead of `Kiba::Extend.delim`. You could also go wild and set it to a different string
-  #   value here if you wanted to. 
-  setting :delim, default: Kiba::Extend.delim, reader: true
-
-  # More minimization of typing...
-  setting :csvopts, default: Kiba::Extend.csvopts, reader: true
-  
-  # Example to show you can create whatever options you need
-  #   If your project's source data separates values with ';; ', this may be useful
-  # The `reader: true` part lets you call: `KeProject.source_data_delim`
-  #   If we omitted the `reader: true`, we have to call: `KeProject.config.source_data_delim`
-  setting :source_data_delim, default: ';; ', reader: true
-  
+  # ## CONFIGURE THIS PROJECT'S DEFAULTS
+  #
+  # Basic project-specific config includes setting the directories for your project and pre-job task
+  #   behavior
+  #
+  # You can configure whatever settings you like or need. For more info on how config settings are defined,
+  #   see https://dry-rb.org/gems/dry-configurable/main/
+  #
+  # For an example of config settings taken to the extreme, see
+  #   https://github.com/lyrasis/kiba-tms and private client projects using it.
+  #
   # Base directory for project files
   setting :datadir, default: File.expand_path('data'), reader: true
+  #
+  # If I want to be lazy I can define this to avoid typing out full directory paths. It also makes a nice
+  #   example for using a constructor:
+  setting :derived_dirs,
+    default: %w[for_import working],
+    reader: true,
+    constructor: proc{ |value| value.map{ |dir| File.join(datadir, dir) } }
+  setting :backup_dir,
+    default: 'backup',
+    reader: true,
+    constructor: proc{ |value| File.join(datadir, value) }
   
-  # :job or :none
-  #   :job - regenerates all dependency files on every run by moving all existing files in working directory
-  #     to backup directory. This mode is recommended during development when you want any change in the
-  #     dependency chain to get picked up.
-  #   :none - only regenerates missing dependency files. Useful when your data is really big and/or your
-  #     jobs are more stable
-  setting :backup_mode, default: :job, reader: true
+  # ## Override Kiba::Extend pre-job task settings
+  # 
+  # These are below my project-specific settings to illustrate a few things:
+  #
+  # - Because of how I want to specify my project :derived_dirs, I need to configure it first before
+  #   using it as the :pre_job_task_directories setting value
+  # - `derived_dirs` is now a class method of the `KeProject` module
+  # - I don't have to override all Kiba::Extend settings before setting project-specific configs
+  Kiba::Extend.config.pre_job_task_directories = derived_dirs
+  Kiba::Extend.config.pre_job_task_backup_dir = backup_dir
+  Kiba::Extend.config.pre_job_task_action = :nuke
+  Kiba::Extend.config.pre_job_task_mode = :job
 
-  # File registry - best to just leave this as-is
+  # ### Re-namespacing Kiba:Extend settings
+  #
+  # **This is the only Kiba::Extend setting that is required to be namespaced in your project.** Do not
+  #   remove or change the `:registry` setting, or Thor task running will break.
   setting :registry, default: Kiba::Extend.registry, reader: true
-  
-  KeProject::Util.backup_working_files if KeProject.backup_mode == :job
+  #
+  # Doing the following just lets us write `KeProject.delim` in our project specific code, instead of
+  #   `Kiba::Extend.delim`, while ensuring a consistent default :delim is used across the board.
+  setting :delim, default: Kiba::Extend.delim, reader: true
 
+  # This project  assumes you are defining all your project jobs manually in `lib/registry_data`.
+  # This is the simplest way to do things, but there are other options leveraging the ability to
+  #   define job definition modules that can be called with parameters, and writing custom code
+  #   to define job registry entries dynamically. For examples of doing some of these more complex,
+  #   metaprogrammy things, see the
+  #   [tips/tricks/common patterns doc page for kiba-extend](https://lyrasis.github.io/kiba-extend/file.common_patterns_tips_tricks.html#automating-repetitive-file-registry) and examples in projects linked from there. 
   KeProject::RegistryData.register
 end
