@@ -92,11 +92,7 @@ module KeProject
   #   `Kiba::Extend.delim`, while ensuring a consistent default :delim is used across the board.
   setting :delim, default: Kiba::Extend.delim, reader: true
 
-  # This project  assumes you are defining all your project jobs manually in `lib/registry_data`.
-  # This is the simplest way to do things, but there are other options leveraging the ability to
-  #   define job definition modules that can be called with parameters, and writing custom code
-  #   to define job registry entries dynamically. For examples of doing some of these more complex,
-  #   metaprogrammy things, see the
-  #   [tips/tricks/common patterns doc page for kiba-extend](https://lyrasis.github.io/kiba-extend/file.common_patterns_tips_tricks.html#automating-repetitive-file-registry) and examples in projects linked from there. 
+  
+  # This sets up your file registry. Dig into `lib/ke_project/registry_data.rb` for more details on this.
   KeProject::RegistryData.register
 end
