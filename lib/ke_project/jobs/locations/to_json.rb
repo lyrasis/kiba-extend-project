@@ -9,7 +9,7 @@ module KeProject
         def job
           Kiba::Extend::Jobs::Job.new(
             files: {
-              source: :orig__locations,
+              source: :locations__clean,
               destination: :locations__to_json
             },
             transformer: xforms
@@ -22,12 +22,13 @@ module KeProject
 
             # example of a one-off, non-reusable, job-specific transform
             transform do |row|
-              val = row[:reversed_location]
+              val = row[:location_type]
               # using `return row` instead of `next row` here would result in a bunch of rows being dropped
               #   from your output
-              next row if val.blank?
+              next row if val && val == 'offsite'
 
-              row[:reversed_location] = val.downcase
+              name = row[:loc_name]
+              row[:loc_name] = name.downcase
               row
             end
           end

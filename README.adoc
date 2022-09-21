@@ -50,9 +50,9 @@ Now you should be able to run the thor tasks for the project. In your terminal, 
 
 `thor reg:list`
 
-Run the `auth\__loc__json` job (which has the effect of running all other jobs as its dependencies):
+Run the `locations\__to_json` job (which has the effect of running all other jobs as its dependencies):
 
-`thor run:job auth\__loc__json`
+`thor run:job locations\__to_json`
 
 More about the thor CLI https://lyrasis.github.io/kiba-extend/file.cli.html[here].
 
@@ -68,16 +68,21 @@ or
 
 The code is heavily commented to explain what things are doing.
 
-To understand the relationship between `lib/ke_project/registry_data.rb` and setting up jobs, I recommend you start by looking at that file and `lib/ke_project/target_system/locations.rb`, which has more comments explaining this. Then look at `lib/ke_project/source_system/locations.rb` for a variant approach.
+To understand the relationship between `lib/ke_project/registry_data.rb` and setting up jobs, I recommend you start by looking at that file and `lib/ke_project/everything_exploded.rb`, which has more comments explaining how this works. Then look at the files in `lib/ke_project/locations` for the current recommended approach.
 
-The source and destination files are in the specified locations, so you can see the results of the example jobs.
+The source files are in the specified locations, so jobs should run. You must run the jobs to see the results.
 
 
 == Start your own project
 
+=== Option 1: Use this repo as a template
 Create a repository for your project https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template[using this repository as a template].
 
-In your new repository, global find/replace `KeProject` and `ke_project` with your project name.
+In your new repository:
+
+* global find/replace `KeProject` and `ke_project` with your project name
+* set your configurations as necessary
+* delete comments and stuff you aren't using
 
 [NOTE]
 .Ruby conventions for naming
@@ -93,28 +98,20 @@ Configure your project settings in your `lib/ke_project.rb` equivalent.
 
 Start setting up and running jobs!
 
-[NOTE]
-.Code organization of job definitions (modules)
-====
-With the exception of `registry_data.rb` and `util.rb`, the structure of directories and files in `lib/ke_project` is fairly arbitrary, in the sense of how you name and structure modules and submodules, and what methods you define in different modules. For example, you _could_ define all your jobs in one big module if you wanted.
+=== Option 2: Build your project manually following patterns in this repo
 
-However, the author has thus far found it useful to set up the structure has shown here, which follows the basic organization within the top-level module for the project:
+Pro:: less tedious find/replace and deleting stuff
+Con:: easier to leave a necessary piece out or introduce typos/other errors
 
-* a module for each data source system
-** a submodule for each spreadsheet or table or other meaningful grouping in source system, named after said table/file. This is used for the initial cleanup/prep of that data---removing fields that won't be used, merging in values for ID lookups, etc.
-* a module for the target system
-** a submodule for each type of record/data that will migrate into the target system. Reshaping or combination of source data into the format required by target system
 
-In reality the distinctions between the kind of logic in the source system and target system submodules will not be clear at all. I'm leaning more and more toward putting almost everything in the source system code, and using the target system submodules to handle any final field renaming, removal of non-importing columns, ordering of columns, and global find/replaces (changing `"%CR%"` to `"\n\n"`, etc.
 
-Each submodule file may contain the methods for a bunch of different jobs.
-====
+== Notes on code organization
 
-[IMPORTANT]
-.Further note on code organization
-====
-The addition of Zeitwerk to handle code loading introduces a bit more constraint on how you can organize your code. As long as you follow common Ruby conventions of defining one module or class per file, and naming the file after the module or class it defines, you should be good. See https://github.com/fxn/zeitwerk#file-structure[Zeitwerk's file structure documentation] for more deatils.
-====
+With the exception of `registry_data.rb`, the structure of directories and files in `lib/ke_project` is fairly arbitrary, in the sense of how you name and structure modules and submodules, and what methods you define in different modules. For example, you _could_ define all your jobs in one big module file if you wanted.
+
+However, the author has thus far found it useful to set up the structure has shown in the `lib/ke_project/jobs/locations` directory.
+
+Using Zeitwerk to handle code loading introduces a bit some constraint on how you can organize your code. As long as you follow common Ruby conventions of defining one module or class per file, and naming the file after the module or class it defines, you should be good. See https://github.com/fxn/zeitwerk#file-structure[Zeitwerk's file structure documentation] for more details.
 
 == More documentation
 

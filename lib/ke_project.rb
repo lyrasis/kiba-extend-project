@@ -73,7 +73,8 @@ module KeProject
   setting :type_tables,
     default: {
       object_statuses: :status,
-      object_types: :type
+      object_types: :type,
+      location_types: :loctype
     },
     reader: true
   # For instance,
@@ -90,6 +91,7 @@ module KeProject
   #   using it as the :pre_job_task_directories setting value
   # - `derived_dirs` is now a class method of the `KeProject` module
   # - I don't have to override all Kiba::Extend settings before setting project-specific configs
+  Kiba::Extend.config.pre_job_task_run = true
   Kiba::Extend.config.pre_job_task_directories = derived_dirs
   Kiba::Extend.config.pre_job_task_backup_dir = backup_dir
   Kiba::Extend.config.pre_job_task_action = :nuke
