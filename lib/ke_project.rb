@@ -68,6 +68,19 @@ module KeProject
     default: 'backup',
     reader: true,
     constructor: proc{ |value| File.join(datadir, value) }
+  # You can create configs that can be hooked into to control other behavior in your project.
+  #   This one is used by the `KeProject::RegistryData.register_type_prep_jobs`.
+  setting :type_tables,
+    default: {
+      object_statuses: :status,
+      object_types: :type
+    },
+    reader: true
+  # For instance,
+  #   if locations have already been cleaned up, you can use the cleaned file as a source for a job,
+  #   but if clean up has not been done, use the supplied legacy location file. See
+  #   `/lib/ke_project/everything_exploded.rb` for an example using this config setting.
+  setting :locations_cleaned, default: true, reader: true
   
   # ## Override Kiba::Extend pre-job task settings
   # 

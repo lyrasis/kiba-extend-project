@@ -12,8 +12,11 @@ module KeProject
       #     must return rows, or you will get empty output
       #   - OPTIONAL: public `initialize` method which can be used to pass in parameters controlling the
       #     transformation, and/or to set instance variables that remain the same for all rows
+      #   - OPTIONAL: public `close` method
       #
       # The transformer class may also have any number of private methods to accomplish the transform.
+      #
+      # See [kiba wiki's entry on implementing transforms](https://github.com/thbar/kiba/wiki/Implementing-ETL-transforms) for more info, and kiba-extend and other projects using it for tons of examples. 
       #
       # TEST YOUR TRANSFORMS!!
       # See /spec/ke_project/transforms/locations/loc_name_reverser_spec.rb
