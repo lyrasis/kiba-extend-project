@@ -1,3 +1,4 @@
-"ObjectID","ObjectNumber"
-1,"2022.1.1"
-2,"2022.1.2"
+"ObjectID","ObjectNumber","TypeID","StatusID"
+1,"2022.1.1",1,3
+2,"2022.1.2",2,2
+3,"2022.2.1",3,1
