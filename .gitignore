@@ -1,8 +1,10 @@
+.bundle
 .rspec_status
 .yardoc/
 .ruby-version
 docs
 data/backup
-data/for_import/*.csv
-data/working/*.csv
+data/endpoint/**/*.json
+data/for_import/**/*.csv
+data/working/**/*.csv
 **/*.csv#
