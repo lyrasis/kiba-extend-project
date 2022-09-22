@@ -52,7 +52,7 @@ Now you should be able to run the thor tasks for the project. In your terminal, 
 
 Run the `locations__to_json` job (which has the effect of running all other jobs as its dependencies):
 
-`thor run:job locations\__to_json`
+`thor run:job locations__to_json`
 
 More about the thor CLI https://lyrasis.github.io/kiba-extend/file.cli.html[here].
 
