@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "kiba-extend", "~> 3", github: "lyrasis/kiba-extend", branch: "main" # even more extensions to kiba
+gem "kiba-extend", "~> 3", github: "lyrasis/kiba-extend", branch: "main"
 
 # dev
 gem "bundler", "~> 2"

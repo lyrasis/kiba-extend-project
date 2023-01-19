@@ -23,7 +23,8 @@ module KeProject
         def xforms
           Kiba.job_segment do
             transform Rename::Field, from: :loc_id, to: :location_id
-            transform KeProject::Transforms::Locations::LocNameReverser, replace: true
+            transform KeProject::Transforms::Locations::LocNameReverser,
+              replace: true
             transform Merge::MultiRowLookup,
               lookup: type__location_types,
               keycolumn: :loctypeid,
