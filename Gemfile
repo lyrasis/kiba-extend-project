@@ -8,4 +8,4 @@ gem "pry", "~> 0"
 gem "rake", "~> 12"
 gem "rspec", "~> 3"
 gem "rubocop"
-gem "standard"
+gem "standard", "~> 1.21", require: false
