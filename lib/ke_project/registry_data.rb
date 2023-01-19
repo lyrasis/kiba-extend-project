@@ -14,10 +14,10 @@ module KeProject
       # You can do `thor jobs:tagged orig` to verify that these are in your registry.
       #
       # If you are NOT doing anything fancy, you can take this line out.
-      register_dir_files(dir: File.join(KeProject.datadir, 'source_system_data'), ns: 'orig')
+      register_dir_files(dir: File.join(KeProject.datadir, "source_system_data"), ns: "orig")
 
       # If the files, jobs, and transformations all follow a pattern, you can do fancier stuff like this. For
-      #   further info, see the [tips/tricks/common patterns doc page for kiba-extend](https://lyrasis.github.io/kiba-extend/file.common_patterns_tips_tricks.html#automating-repetitive-file-registry) and examples in projects linked from there. 
+      #   further info, see the [tips/tricks/common patterns doc page for kiba-extend](https://lyrasis.github.io/kiba-extend/file.common_patterns_tips_tricks.html#automating-repetitive-file-registry) and examples in projects linked from there.
       #
       # If you are NOT doing anything fancy, you can take this line out.
       register_type_prep_jobs
@@ -26,7 +26,7 @@ module KeProject
       #
       # This populates the registry with the manually defined entries
       register_files
-      
+
       # Calling :finalize on the registry just calls :transform and then :freeze on the registry.
       #
       # :transform transforms the file hashes below into Kiba::Extend::Registry::FileRegistryEntry objects.
@@ -54,19 +54,19 @@ module KeProject
     end
 
     # Because these are supplied, not derived by the project, they do not need `creator` attributes
-    #   defined. 
+    #   defined.
     def register_dir_files(dir:, ns:)
-        KeProject.registry.namespace(ns) do
-          Dir.children(dir).select{ |file| File.extname(file) == '.csv' }.each do |csvfile|
-            key = csvfile.delete_suffix('.csv').to_sym
+      KeProject.registry.namespace(ns) do
+        Dir.children(dir).select { |file| File.extname(file) == ".csv" }.each do |csvfile|
+          key = csvfile.delete_suffix(".csv").to_sym
 
-            register key, {
-              path: File.join(dir, csvfile),
-              supplied: true,
-              tags: [key, ns.to_sym]
-            }
-          end
+          register key, {
+            path: File.join(dir, csvfile),
+            supplied: true,
+            tags: [key, ns.to_sym]
+          }
         end
+      end
     end
     private_class_method :register_dir_files
 
@@ -74,16 +74,16 @@ module KeProject
       source_key = "orig__#{typetable}".to_sym
       {
         creator: {callee: KeProject::Jobs::TypePrep, args: {source: source_key, valfield: field}},
-        path: File.join(KeProject.datadir, 'working', "#{typetable}.csv"),
+        path: File.join(KeProject.datadir, "working", "#{typetable}.csv"),
         tags: [:typetables, typetable],
         lookup_on: "#{field}id".to_sym
       }
     end
     private_class_method :typetable_reg_entry_hash
-    
+
     def register_type_prep_jobs
       bind = binding
-      KeProject.registry.namespace('type') do
+      KeProject.registry.namespace("type") do
         KeProject.type_tables.each do |typetable, field|
           # Even though :typetable_reg_entry_hash is defined immediately above, the fact is is called here
           #   nested within two `do` blocks means it is called from an unexpected scope and would fail with
@@ -99,13 +99,13 @@ module KeProject
           # `KeProject::RegistryData.typetable_reg_entry_hash(typetable, field)`
           #
           #  Instead we set/pass in a Binding object in the `register_type_prep_jobs` definition, that
-          #    we can then use to interact with the original scope/context. 
-          register typetable, bind.receiver.send(:typetable_reg_entry_hash, *[typetable, field])
+          #    we can then use to interact with the original scope/context.
+          register typetable, bind.receiver.send(:typetable_reg_entry_hash, typetable, field)
         end
       end
     end
     private_class_method :register_type_prep_jobs
-    
+
     # Where you manually enter data about all the jobs/files in your project
     #
     # The namespace hierarchy is completely arbitrary. Set it up (or not) in a way that makes sense to you.
@@ -114,7 +114,7 @@ module KeProject
     #   a lot, so I tend to avoid nested namespaces or long namespace names/job keys.
     #
     # If you use namespaces, the unique job key is built by joining all levels of namespace, plus the registered
-    #   task name, using `__` (2 underscores) as the join delimiter. 
+    #   task name, using `__` (2 underscores) as the join delimiter.
     #
     # Documentation reference on the registry entry data format:
     #   See {https://lyrasis.github.io/kiba-extend/file.file_registry_entry.html}
@@ -131,9 +131,9 @@ module KeProject
       # I would NOT advise using this as a pattern for setting your own jobs up, but hopefully it clarifies
       #   what the pieces are and how they relate.
       KeProject.registry.register :prep_objects, {
-        path: File.join(KeProject.datadir, 'working', 'initially_processed_objects.csv'),
+        path: File.join(KeProject.datadir, "working", "initially_processed_objects.csv"),
         creator: KeProject::EverythingExploded.method(:i_am_the_creator_method),
-        desc: 'Final location authority records for import into target system',
+        desc: "Final location authority records for import into target system",
         tags: %i[importable authority location]
       }
 
@@ -147,18 +147,18 @@ module KeProject
       #
       # These jobs do exactly what the jobs in the previous namespace do. They just demonstrate another
       #   way to structure your code.
-      KeProject.registry.namespace('locations') do
+      KeProject.registry.namespace("locations") do
         register :clean, {
-          path: File.join(KeProject.datadir, 'working', 'loc_clean.csv'),
+          path: File.join(KeProject.datadir, "working", "loc_clean.csv"),
           creator: KeProject::Jobs::Locations::Clean,
-          desc: 'Location values from source system, cleaned up for further mapping',
+          desc: "Location values from source system, cleaned up for further mapping",
           tags: %i[authority location]
         }
         register :clean_rev, {
-          path: File.join(KeProject.datadir, 'working', 'loc_clean_and_reversed.csv'),
+          path: File.join(KeProject.datadir, "working", "loc_clean_and_reversed.csv"),
           creator: KeProject::Jobs::Locations::CleanRev,
           lookup_on: :location_id,
-          desc: 'Location values from source system, cleaned up for further mapping',
+          desc: "Location values from source system, cleaned up for further mapping",
           tags: %i[authority location]
         }
 
@@ -167,10 +167,10 @@ module KeProject
         # This job outputs to a different destination type, so we need to tell it what
         #   destination class to use
         register :to_json, {
-          path: File.join(KeProject.datadir, 'endpoint', 'locations.json'),
+          path: File.join(KeProject.datadir, "endpoint", "locations.json"),
           dest_class: Kiba::Extend::Destinations::JsonArray,
           creator: KeProject::Jobs::Locations::ToJson,
-          desc: 'Version of final locations in JSON',
+          desc: "Version of final locations in JSON",
           tags: %i[json authority location]
         }
       end

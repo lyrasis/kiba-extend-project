@@ -9,7 +9,7 @@ module KeProject
         Kiba::Extend::Jobs::Job.new(
           files: {
             source: source,
-            destination: "type__#{source.to_s.delete_prefix('orig__')}".to_sym
+            destination: "type__#{source.to_s.delete_prefix("orig__")}".to_sym
           },
           transformer: xforms(valfield)
         )
@@ -17,10 +17,9 @@ module KeProject
 
       def xforms(valfield)
         Kiba.job_segment do
-          transform FilterRows::FieldEqualTo, action: :reject, field: valfield, value: 'undefined'
+          transform FilterRows::FieldEqualTo, action: :reject, field: valfield, value: "undefined"
         end
       end
     end
   end
 end
-

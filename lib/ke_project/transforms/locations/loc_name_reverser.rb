@@ -16,7 +16,7 @@ module KeProject
       #
       # The transformer class may also have any number of private methods to accomplish the transform.
       #
-      # See [kiba wiki's entry on implementing transforms](https://github.com/thbar/kiba/wiki/Implementing-ETL-transforms) for more info, and kiba-extend and other projects using it for tons of examples. 
+      # See [kiba wiki's entry on implementing transforms](https://github.com/thbar/kiba/wiki/Implementing-ETL-transforms) for more info, and kiba-extend and other projects using it for tons of examples.
       #
       # TEST YOUR TRANSFORMS!!
       # See /spec/ke_project/transforms/locations/loc_name_reverser_spec.rb
@@ -26,7 +26,7 @@ module KeProject
           @replace = replace
           @target = @replace ? @loc_name_field : "#{@loc_name_field}_reversed".to_sym
         end
-        
+
         def process(row)
           value = row.fetch(@loc_name_field, nil)
           row[@target] = nil

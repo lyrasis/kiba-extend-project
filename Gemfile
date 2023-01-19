@@ -1,10 +1,10 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-gem 'kiba-extend', '~> 3.2', :github => 'lyrasis/kiba-extend', :branch => 'main' #even more extensions to kiba
+gem "kiba-extend", "~> 3", github: "lyrasis/kiba-extend", branch: "main" # even more extensions to kiba
 
 # dev
-gem 'bundler', '~> 2.3.9'
-gem 'pry', '~> 0.13.0'
-gem 'rake', '~> 12.0'
-gem 'rspec', '~> 3.11'
-
+gem "bundler", "~> 2"
+gem "pry", "~> 0"
+gem "rake", "~> 12"
+gem "rspec", "~> 3"
+gem "standard"
