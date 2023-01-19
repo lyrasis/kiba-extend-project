@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'date'
+require "date"
 
 module KeProject
   module EverythingExploded
@@ -50,7 +50,7 @@ module KeProject
       }
     end
 
-    # Illustrates conditionally setting source 
+    # Illustrates conditionally setting source
     def source
       if KeProject.registry.key?(:pre_prepped_objects)
         :pre_prepped_objects
@@ -63,8 +63,8 @@ module KeProject
       base = []
       base << KeProject.type_tables
         .keys
-        .map{ |tt| "type__#{tt}".to_sym }
-        .select{ |key| KeProject.registry.key?(key) }
+        .map { |tt| "type__#{tt}".to_sym }
+        .select { |key| KeProject.registry.key?(key) }
       base.flatten
     end
 
@@ -79,15 +79,15 @@ module KeProject
     end
 
     def today_is_odd?
-      Date.today.day.odd?  
+      Date.today.day.odd?
     end
-    
+
     def constant_merge
       Kiba.job_segment do
-        transform Merge::ConstantValue, target: :data_source, value: 'source system'
+        transform Merge::ConstantValue, target: :data_source, value: "source system"
       end
     end
-    
+
     # Your job transformation logic always goes between `Kiba.job_segment do` and `end`
     #
     # Note that the block defined in `Kiba.job_segment` is executed in the context of a `Kiba::Context` object,
@@ -98,22 +98,22 @@ module KeProject
     # - called with full namespace (:get_last_week)
     # - passed in with a binding object (:get_yesterday) -- this one is useful if you have done any
     #   metaprogrammy magic extension of your job definition modules, so the definition of the
-    #   appropriate method may vary at runtime. The kiba-tms project uses this a lot. 
+    #   appropriate method may vary at runtime. The kiba-tms project uses this a lot.
     def transformation_definition
       bind = binding
-      
+
       Kiba.job_segment do
         job_def = bind.receiver # returns KeProject::EverythingExploded module
-        
+
         def get_today
           Date.today.to_s
         end
-        
+
         transform Merge::ConstantValues, constantmap: {
-            update_date: get_today,
-            last_week: KeProject::EverythingExploded.get_last_week,
-            prev_date: job_def.send(:get_yesterday)
-          }
+          update_date: get_today,
+          last_week: KeProject::EverythingExploded.get_last_week,
+          prev_date: job_def.send(:get_yesterday)
+        }
 
         # It's probably a lot faster and clearer to just type out two plain Merge::MultiRowLookup
         #   and one Delete::Fields transforms, but this module exists to show weird variants you
@@ -123,7 +123,7 @@ module KeProject
         #   call transforms with variables opens up some neat possibilities.
         job_def.lookups.each do |lkup|
           table = lkup.to_s
-            .delete_prefix('type__')
+            .delete_prefix("type__")
             .to_sym
           valfield = KeProject.type_tables[table]
           idfield = "#{valfield}id".to_sym
@@ -137,7 +137,6 @@ module KeProject
 
       # You can compose job definitions from multiple `Kiba.job_segment do` blocks
       constant_merge if today_is_odd?
-
     end
 
     # Here we are setting up everything required to run another job. This job is not yet registered
@@ -162,7 +161,7 @@ module KeProject
 
     def bar
       Kiba.job_segment do
-        transform Merge::ConstantValue, target: :data_source, value: 'source system'
+        transform Merge::ConstantValue, target: :data_source, value: "source system"
 
         # example of a one-off, non-reusable, job-specific transform
         transform do |row|

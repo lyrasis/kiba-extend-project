@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'kiba/extend'
+require "kiba/extend"
 
 # Namespace for the overall project
 module KeProject
@@ -14,12 +14,12 @@ module KeProject
 
   # Creates Zeitwerk::Loader, making it reloadable
   private def setup_loader
-            @loader = Zeitwerk::Loader.for_gem
-            @loader.enable_reloading
-            @loader.setup
-            @loader.eager_load
-            @loader
-          end
+    @loader = Zeitwerk::Loader.for_gem
+    @loader.enable_reloading
+    @loader.setup
+    @loader.eager_load
+    @loader
+  end
 
   # Will reload project code. Useful when working in console
   def reload!
@@ -27,7 +27,7 @@ module KeProject
   end
 
   loader
-  
+
   extend Dry::Configurable
   # ## OVERRIDE KIBA::EXTEND'S DEFAULT OPTIONS
   #
@@ -36,13 +36,13 @@ module KeProject
   # - Default settings for source and destination types (:csvopts, :source, :destination, etc)
   # - Default values used across transforms (:delim, :sgdelim, :nullvalue)
   # - Default settings for job definition and job run behavior
-  # 
+  #
   # See kiba-extend/lib/kiba/extend.rb for more explanation of available options. Any of the options set there
   #   (with the `setting` command) can be overridden here, however it is **highly recommended** you DO NOT
   #   override the `registry` setting
   #
   # Here we override the default Kiba::Extend :delim setting:
-  Kiba::Extend.config.delim = ';'
+  Kiba::Extend.config.delim = ";"
 
   # ## CONFIGURE THIS PROJECT'S DEFAULTS
   #
@@ -56,18 +56,18 @@ module KeProject
   #   https://github.com/lyrasis/kiba-tms and private client projects using it.
   #
   # Base directory for project files
-  setting :datadir, default: File.expand_path('data'), reader: true
+  setting :datadir, default: File.expand_path("data"), reader: true
   #
   # If I want to be lazy I can define this to avoid typing out full directory paths. It also makes a nice
   #   example for using a constructor:
   setting :derived_dirs,
     default: %w[for_import working],
     reader: true,
-    constructor: proc{ |value| value.map{ |dir| File.join(datadir, dir) } }
+    constructor: proc { |value| value.map { |dir| File.join(datadir, dir) } }
   setting :backup_dir,
-    default: 'backup',
+    default: "backup",
     reader: true,
-    constructor: proc{ |value| File.join(datadir, value) }
+    constructor: proc { |value| File.join(datadir, value) }
   # You can create configs that can be hooked into to control other behavior in your project.
   #   This one is used by the `KeProject::RegistryData.register_type_prep_jobs`.
   setting :type_tables,
@@ -82,9 +82,9 @@ module KeProject
   #   but if clean up has not been done, use the supplied legacy location file. See
   #   `/lib/ke_project/everything_exploded.rb` for an example using this config setting.
   setting :locations_cleaned, default: true, reader: true
-  
+
   # ## Override Kiba::Extend pre-job task settings
-  # 
+  #
   # These are below my project-specific settings to illustrate a few things:
   #
   # - Because of how I want to specify my project :derived_dirs, I need to configure it first before
@@ -107,7 +107,6 @@ module KeProject
   #   `Kiba::Extend.delim`, while ensuring a consistent default :delim is used across the board.
   setting :delim, default: Kiba::Extend.delim, reader: true
 
-  
   # This sets up your file registry. Dig into `lib/ke_project/registry_data.rb` for more details on this.
   KeProject::RegistryData.register
 end

@@ -12,9 +12,9 @@ module KeProject
               source: :orig__locations,
               destination: :locations__clean,
               lookup: %i[
-                         type__location_types
-                         locations__clean_rev
-                        ]
+                type__location_types
+                locations__clean_rev
+              ]
             },
             transformer: xforms
           )
