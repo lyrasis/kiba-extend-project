@@ -8,3 +8,4 @@ data/endpoint/**/*.json
 data/for_import/**/*.csv
 data/working/**/*.csv
 **/*.csv#
+.rubocop-https---raw-githubusercontent-com-kspurgin-code-quality-main-configurations-rubocop-standardrb-extend-yml

@@ -1,0 +1,2 @@
+inherit_from:
+  - https://raw.githubusercontent.com/kspurgin/code-quality/main/configurations/rubocop/standardrb-extend.yml
