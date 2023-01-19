@@ -7,3 +7,4 @@ gem 'bundler', '~> 2'
 gem 'pry', '~> 0'
 gem 'rake', '~> 12'
 gem 'rspec', '~> 3'
+gem "standard"
