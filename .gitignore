@@ -1,6 +1,7 @@
 .bundle
 .rspec_status
 .yardoc/
+.rubocop-https---raw-githubusercontent-com-kspurgin-code-quality-main-configurations-rubocop-standard-override-yml
 .ruby-version
 docs
 data/backup
@@ -8,4 +9,3 @@ data/endpoint/**/*.json
 data/for_import/**/*.csv
 data/working/**/*.csv
 **/*.csv#
-.rubocop-https---raw-githubusercontent-com-kspurgin-code-quality-main-configurations-rubocop-standardrb-extend-yml
