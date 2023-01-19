@@ -17,7 +17,8 @@ module KeProject
 
       def xforms(valfield)
         Kiba.job_segment do
-          transform FilterRows::FieldEqualTo, action: :reject, field: valfield, value: "undefined"
+          transform FilterRows::FieldEqualTo, action: :reject, field: valfield,
+            value: "undefined"
         end
       end
     end

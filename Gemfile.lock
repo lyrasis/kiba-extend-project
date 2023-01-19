@@ -109,6 +109,7 @@ DEPENDENCIES
   pry (~> 0)
   rake (~> 12)
   rspec (~> 3)
+  rubocop
   standard
 
 BUNDLED WITH

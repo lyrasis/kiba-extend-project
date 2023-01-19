@@ -18,13 +18,16 @@ module KeProject
 
         def xforms
           Kiba.job_segment do
-            transform Merge::ConstantValue, target: :data_source, value: "source system"
+            transform Merge::ConstantValue, target: :data_source,
+              value: "source system"
 
             # example of a one-off, non-reusable, job-specific transform
             transform do |row|
               val = row[:location_type]
-              # using `return row` instead of `next row` here would result in a bunch of rows being dropped
-              #   from your output
+              # using `return row` instead of `next row` here would result in a
+              #   bunch of rows being dropped from your output
+              #
+              # https://github.com/thbar/kiba/wiki/Implementing-ETL-transforms#row-transform-as-a-block
               next row if val && val == "offsite"
 
               name = row[:loc_name]
