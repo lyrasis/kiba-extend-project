@@ -94,7 +94,7 @@ module KeProject
     # and NOT this module. Because of how scope works in Ruby, this means, any methods that will be called by
     # your job need to be either:
     #
-    # - defined within the block passed to `Kiba.job_segment` (:get_today)
+    # - defined as a Proc/Lambda within the block passed to `Kiba.job_segment` (:get_today)
     # - called with full namespace (:get_last_week)
     # - passed in with a binding object (:get_yesterday) -- this one is useful if you have done any
     #   metaprogrammy magic extension of your job definition modules, so the definition of the
@@ -105,12 +105,10 @@ module KeProject
       Kiba.job_segment do
         job_def = bind.receiver # returns KeProject::EverythingExploded module
 
-        def get_today
-          Date.today.to_s
-        end
+        get_today = -> { Date.today.to_s }
 
         transform Merge::ConstantValues, constantmap: {
-          update_date: get_today,
+          update_date: get_today.call,
           last_week: KeProject::EverythingExploded.get_last_week,
           prev_date: job_def.send(:get_yesterday)
         }
