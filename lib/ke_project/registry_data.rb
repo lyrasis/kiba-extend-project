@@ -189,7 +189,7 @@ module KeProject
         register :clean, {
           path: File.join(KeProject.datadir, "working", "loc_clean.csv"),
           creator: KeProject::Jobs::Locations::Clean,
-          desc: "Location values from source system, cleaned up for further " \
+          desc: "Location values from source system, cleaned up for further "\
             "mapping",
           tags: %i[authority location]
         }
@@ -198,7 +198,7 @@ module KeProject
             "loc_clean_and_reversed.csv"),
           creator: KeProject::Jobs::Locations::CleanRev,
           lookup_on: :location_id,
-          desc: "Location values from source system, cleaned up for further " \
+          desc: "Location values from source system, cleaned up for further "\
             "mapping",
           tags: %i[authority location]
         }
