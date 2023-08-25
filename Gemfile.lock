@@ -119,7 +119,7 @@ DEPENDENCIES
   rake (~> 12)
   rspec
   rubocop
-  standard (~> 1.21)
+  standard
 
 BUNDLED WITH
    2.3.9
