@@ -9,3 +9,4 @@ data/endpoint/**/*.json
 data/for_import/**/*.csv
 data/working/**/*.csv
 **/*.csv#
+**/.DS_Store
