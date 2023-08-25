@@ -1,7 +1,7 @@
 .bundle
 .rspec_status
 .yardoc/
-.rubocop-https---raw-githubusercontent-com-kspurgin-code-quality-main-configurations-rubocop-standard-override-yml
+.rubocop-https*
 .ruby-version
 docs
 data/backup
