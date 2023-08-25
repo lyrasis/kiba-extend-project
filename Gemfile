@@ -6,6 +6,6 @@ gem "kiba-extend", "~> 3", github: "lyrasis/kiba-extend", branch: "main"
 gem "bundler", "~> 2"
 gem "pry", "~> 0"
 gem "rake", "~> 12"
-gem "rspec", "~> 3"
+gem "rspec"
 gem "rubocop"
 gem "standard", "~> 1.21", require: false
