@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source "https://rubygems.org"
 
 gem "kiba-extend", "~> 3", github: "lyrasis/kiba-extend", branch: "main"
