@@ -2,7 +2,6 @@
 .rspec_status
 .yardoc/
 .rubocop-https*
-.ruby-version
 docs
 data/backup
 data/endpoint/**/*.json
