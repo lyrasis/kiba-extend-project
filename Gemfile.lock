@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/kspurgin/almost_standard.git
-  revision: 36a38784593f63c8fe9c403a499cef886428946b
+  revision: 18766b81052a238685f73683a99c4629e726e9b4
   branch: main
   specs:
-    almost_standard (0.1.0)
+    almost_standard (0.1.1)
       bundler
       rubocop
       rubocop-rspec
