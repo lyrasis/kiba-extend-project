@@ -1,2 +1,2 @@
-inherit_from:
-  - https://raw.githubusercontent.com/kspurgin/code-quality/main/configurations/rubocop-standard.yml
+inherit_gem:
+  almost_standard: .rubocop.yml
