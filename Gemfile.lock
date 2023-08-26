@@ -1,4 +1,15 @@
 GIT
+  remote: https://github.com/kspurgin/almost_standard.git
+  revision: 18766b81052a238685f73683a99c4629e726e9b4
+  branch: main
+  specs:
+    almost_standard (0.1.1)
+      bundler
+      rubocop
+      rubocop-rspec
+      standard
+
+GIT
   remote: https://github.com/lyrasis/kiba-extend.git
   revision: c8f29c39bc66b0266e6863463d8db29f1e684631
   branch: main
@@ -95,14 +106,17 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.29.0)
       parser (>= 3.2.1.0)
-    rubocop-capybara (2.17.1)
+    rubocop-capybara (2.18.0)
       rubocop (~> 1.41)
+    rubocop-factory_bot (2.23.1)
+      rubocop (~> 1.33)
     rubocop-performance (1.19.0)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
-    rubocop-rspec (2.20.0)
+    rubocop-rspec (2.23.2)
       rubocop (~> 1.33)
       rubocop-capybara (~> 2.17)
+      rubocop-factory_bot (~> 2.22)
     ruby-progressbar (1.13.0)
     scrub_rb (1.0.1)
     standard (1.31.0)
@@ -132,14 +146,11 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  bundler (~> 2.3)
+  almost_standard!
   kiba-extend (~> 3)!
   pry (~> 0.14)
   rake (~> 13.0)
   rspec
-  rubocop
-  rubocop-rspec
-  standard
 
 BUNDLED WITH
    2.3.9
