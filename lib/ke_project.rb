@@ -27,8 +27,6 @@ module KeProject
     @loader.reload
   end
 
-  loader
-
   extend Dry::Configurable
   # ## OVERRIDE KIBA::EXTEND'S DEFAULT OPTIONS
   #
@@ -61,7 +59,7 @@ module KeProject
   #
   # Base directory for project files
   setting :datadir, default: File.expand_path("data"), reader: true
-  #
+
   # If I want to be lazy I can define this to avoid typing out full directory
   #   paths. It also makes a nice example for using a constructor:
   setting :derived_dirs,
@@ -116,8 +114,37 @@ module KeProject
   #   specific code, instead of `Kiba::Extend.delim`, while ensuring a
   #   consistent default :delim is used across the board.
   setting :delim, default: Kiba::Extend.delim, reader: true
-
-  # This sets up your file registry. Dig into `lib/ke_project/registry_data.rb`
-  #   for more details on this.
-  KeProject::RegistryData.register
 end
+
+KeProject.loader
+
+# The following line is necessary if you wish to use
+# `Kiba::Extend::Mixins::IterativeCleanup` in your project.
+Kiba::Extend.config.config_namespaces = [KeProject]
+
+# This sets up your file registry. Dig into
+#   `lib/ke_project/registry_data.rb` for more details on this.
+#
+# If you are not using IterativeCleanup in your project, this can go
+#   at the end of the main KeProject (or equivalent) module definition
+#   (or it can stay here). However, if you are using IterativeCleanup,
+#   the following things need to happen in order: (1) Your client
+#   project gets loaded, which loads kiba-extend (and kiba-tms or any
+#   other intervening application layer); (2) kiba-extend
+#   `config_namespaces` gets set, so it will know where to look for
+#   config modules that may extend IterativeCleanup; and (3) all job
+#   entries are registered---those manually and programmatically
+#   defined in `RegistryData`, and those defined by IterativeCleanup
+#   mixin.
+KeProject::RegistryData.register
+
+# # The following settings are actually set in
+# #   `lib/ke_project/places_cleanup.rb`,
+# #   but are commented here to show an alternate place where you could set
+# #   them.
+# KeProject::PlacesCleanup.config.provided_worksheets = [
+#   "places_cleanup_worksheet_1.csv"
+# ]
+# KeProject::PlacesCleanup.config.returned_files = [
+#   "places_cleanup_worksheet_done_1.csv"
+# ]
