@@ -34,6 +34,11 @@ module KeProject
       # This populates the registry with the manually defined entries
       register_files
 
+      # This needs to be added if you are using the IterativeCleanup mixin
+      #  in your project. It causes all the automagically defined cleanup jobs
+      #  to be registered.
+      Kiba::Extend::Utils::IterativeCleanupJobRegistrar.call
+
       # Calling :finalize on the registry just calls :transform and then :freeze
       #   on the registry.
       #
@@ -214,6 +219,18 @@ module KeProject
           creator: KeProject::Jobs::Locations::ToJson,
           desc: "Version of final locations in JSON",
           tags: %i[json authority location]
+        }
+      end
+
+      # This namespace registers a job which is used as
+      #   the base job for an iterative cleanup process defined in
+      #   `lib/ke_project/places_cleanup.rb`
+      KeProject.registry.namespace("places") do
+        register :prep_for_cleanup, {
+          path: File.join(KeProject.datadir, "working",
+            "places_prep_for_cleanup.csv"),
+          creator: KeProject::Jobs::Places::PrepForCleanup,
+          tags: %i[authority place]
         }
       end
     end
