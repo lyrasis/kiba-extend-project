@@ -11,7 +11,7 @@ GIT
 
 GIT
   remote: https://github.com/lyrasis/kiba-extend.git
-  revision: 6b933b773da5d256da12261d84c76d44315dc3b4
+  revision: 37c0a13c2417e2547f7c1c0ebeec76bad92a2941
   branch: main
   specs:
     kiba-extend (4.0.0)

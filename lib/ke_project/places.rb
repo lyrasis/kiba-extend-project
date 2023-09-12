@@ -7,9 +7,5 @@ module KeProject::Places
 
   setting :fingerprint_fields,
     default: %i[place country state county city],
-    reader: true,
-    constructor: ->(val) do
-                   [val,
-                     KeProject::PlacesCleanup.worksheet_add_fields].flatten
-                 end
+    reader: true
 end
