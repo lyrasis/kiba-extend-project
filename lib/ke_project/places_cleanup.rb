@@ -6,24 +6,26 @@ module KeProject::PlacesCleanup
   extend Dry::Configurable
 
   setting :base_job, default: :places__prep_for_cleanup, reader: true
-  setting :job_tags, default: %i[place cleanup], reader: true
+
+  def fingerprint_fields
+    KeProject::Places.fingerprint_fields -
+      [:place] +
+      worksheet_add_fields
+  end
+
+  extend Kiba::Extend::Mixins::IterativeCleanup
+
+  def job_tags
+    %i[authority place cleanup]
+  end
+
   setting :worksheet_add_fields,
     default: %i[proximity uncertainty],
     reader: true
 
-  def fingerprint_fields
-    KeProject::Places.fingerprint_fields
-  end
-
-  setting :fingerprint_flag_ignore_fields,
-    default: [:place],
-    reader: true
-
   def worksheet_field_order
-    fingerprint_fields - fingerprint_flag_ignore_fields
+    fingerprint_fields
   end
-
-  extend Kiba::Extend::Mixins::IterativeCleanup
 end
 
 # Extending `IterativeCleanup` in the above module definition defines
