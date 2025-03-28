@@ -14,6 +14,11 @@ end
 
 require_relative "../lib/ke_project"
 
+# A custom rspec matcher to compare expected and given CSVs and provide a usable
+#   diff. Use this if you are testing the output of a job. See example of use in
+#   https://github.com/lyrasis/kiba-tms/blob/main/spec/kiba/tms/mixins/reportable_for_table_spec.rb
+require "rspec/custom/matchers/match_csv"
+
 RSpec.configure do |config|
   config.extend KeProject
   config.include Helpers
