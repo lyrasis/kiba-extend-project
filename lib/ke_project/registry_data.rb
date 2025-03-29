@@ -77,9 +77,9 @@ module KeProject
     #   `creator` attributes defined.
     def register_dir_files(dir:, ns:)
       KeProject.registry.namespace(ns) do
-        Dir.children(dir).select { |file|
+        Dir.children(dir).select do |file|
           File.extname(file) == ".csv"
-        }.each do |csvfile|
+        end.each do |csvfile|
           key = csvfile.delete_suffix(".csv").to_sym
 
           register key, {
@@ -93,13 +93,13 @@ module KeProject
     private_class_method :register_dir_files
 
     def typetable_reg_entry_hash(typetable, field)
-      source_key = "orig__#{typetable}".to_sym
+      source_key = :"orig__#{typetable}"
       {
         creator: {callee: KeProject::Jobs::TypePrep,
                   args: {source: source_key, valfield: field}},
         path: File.join(KeProject.datadir, "working", "#{typetable}.csv"),
         tags: [:typetables, typetable],
-        lookup_on: "#{field}id".to_sym
+        lookup_on: :"#{field}id"
       }
     end
     private_class_method :typetable_reg_entry_hash

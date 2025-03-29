@@ -9,7 +9,7 @@ module KeProject
         Kiba::Extend::Jobs::Job.new(
           files: {
             source: source,
-            destination: "type__#{source.to_s.delete_prefix("orig__")}".to_sym
+            destination: :"type__#{source.to_s.delete_prefix("orig__")}"
           },
           transformer: xforms(valfield)
         )

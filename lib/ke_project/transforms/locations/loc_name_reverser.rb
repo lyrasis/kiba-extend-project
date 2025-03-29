@@ -35,7 +35,7 @@ module KeProject
           @target = if @replace
             @loc_name_field
           else
-            "#{@loc_name_field}_reversed".to_sym
+            :"#{@loc_name_field}_reversed"
           end
         end
 

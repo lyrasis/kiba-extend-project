@@ -73,7 +73,7 @@ module KeProject
       base = []
       base << KeProject.type_tables
         .keys
-        .map { |tt| "type__#{tt}".to_sym }
+        .map { |tt| :"type__#{tt}" }
         .select { |key| KeProject.registry.key?(key) }
       base.flatten
     end
@@ -140,7 +140,7 @@ module KeProject
             .delete_prefix("type__")
             .to_sym
           valfield = KeProject.type_tables[table]
-          idfield = "#{valfield}id".to_sym
+          idfield = :"#{valfield}id"
           transform Merge::MultiRowLookup,
             lookup: send(lkup),
             keycolumn: idfield,

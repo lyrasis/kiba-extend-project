@@ -6,9 +6,9 @@ require "bundler/setup"
 #   setting up and running transform tests
 require "kiba/extend"
 kiba_spec_dir = "#{Gem.loaded_specs["kiba-extend"].full_gem_path}/spec"
-Dir.glob("#{kiba_spec_dir}/*").sort.select { |path|
+Dir.glob("#{kiba_spec_dir}/*").sort.select do |path|
   path.match?(/helpers\.rb$/)
-}.each do |rbfile|
+end.each do |rbfile|
   require rbfile
 end
 
