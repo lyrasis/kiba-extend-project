@@ -2,12 +2,12 @@
 
 source "https://rubygems.org"
 
-gem "kiba-extend", "~> 4.0.1", github: "lyrasis/kiba-extend", branch: "main"
+gem "kiba-extend", "~> 4.1.0", github: "lyrasis/kiba-extend", branch: "main"
 
-group :development, :test do
+group :development do
+  gem "almost_standard", github: "kspurgin/almost_standard", branch: "main"
   gem "pry"
   gem "rake"
-  gem "almost_standard", github: "kspurgin/almost_standard", branch: "main"
 end
 
 group :test do
