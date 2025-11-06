@@ -32,7 +32,7 @@ toc::[]
 
 == Prerequisites
 
-You must have a modern Ruby installed. This should work with 3.1.0 and up.
+You must have a modern Ruby installed. This should work with 3.4.1 and up.
 
 TIP: It is highly recommended you use a version manager. The author is using https://github.com/rbenv/rbenv[rbenv].
 
