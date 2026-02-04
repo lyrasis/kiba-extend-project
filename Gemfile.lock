@@ -19,10 +19,10 @@ GIT
 
 GIT
   remote: https://github.com/lyrasis/kiba-extend.git
-  revision: 1913761da61cdbc9a21f760494d1a5c15df22b73
+  revision: 9b10866230b6d9d3f8bf15b2f9e3f56b1c756f16
   branch: main
   specs:
-    kiba-extend (4.1.0)
+    kiba-extend (5.1.0)
       activesupport
       amazing_print
       bigdecimal
@@ -33,47 +33,47 @@ GIT
       kiba-common
       marc
       measured
+      openssl (~> 3.3.1)
       thor
-      xxhash
+      xxhash (= 0.7.0)
       zeitwerk
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (8.0.2)
+    activesupport (8.1.2)
       base64
-      benchmark (>= 0.3)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.3.1)
       connection_pool (>= 2.2.5)
       drb
       i18n (>= 1.6, < 2)
+      json
       logger (>= 1.4.2)
       minitest (>= 5.1)
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
-    amazing_print (1.7.2)
+    amazing_print (2.0.0)
     ast (2.4.3)
-    base64 (0.2.0)
-    benchmark (0.4.0)
-    bigdecimal (3.1.9)
+    base64 (0.3.0)
+    bigdecimal (4.0.1)
     coderay (1.1.3)
-    concurrent-ruby (1.3.5)
-    connection_pool (2.5.0)
-    csv (3.3.3)
-    diff-lcs (1.6.1)
-    drb (2.2.1)
+    concurrent-ruby (1.3.6)
+    connection_pool (3.0.2)
+    csv (3.3.5)
+    diff-lcs (1.6.2)
+    drb (2.2.3)
     dry-configurable (1.3.0)
       dry-core (~> 1.1)
       zeitwerk (~> 2.6)
     dry-container (0.11.0)
       concurrent-ruby (~> 1.0)
-    dry-core (1.1.0)
+    dry-core (1.2.0)
       concurrent-ruby (~> 1.0)
       logger
       zeitwerk (~> 2.6)
-    i18n (1.14.7)
+    i18n (1.14.8)
       concurrent-ruby (~> 1.0)
     json (2.10.2)
     kiba (4.0.0)
@@ -82,17 +82,20 @@ GEM
     language_server-protocol (3.17.0.4)
     lint_roller (1.1.0)
     logger (1.7.0)
-    marc (1.3.0)
+    marc (1.4.0)
       nokogiri (~> 1.0)
       rexml
-    measured (3.2.0)
+    measured (3.2.1)
       activesupport (>= 5.2)
     method_source (1.0.0)
-    minitest (5.25.5)
-    nokogiri (1.18.6-x86_64-darwin)
+    minitest (5.27.0)
+    nokogiri (1.19.0-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.6-x86_64-linux-gnu)
+    nokogiri (1.19.0-x86_64-darwin)
       racc (~> 1.4)
+    nokogiri (1.19.0-x86_64-linux-gnu)
+      racc (~> 1.4)
+    openssl (3.3.2)
     parallel (1.26.3)
     parser (3.3.7.3)
       ast (~> 2.4.1)
@@ -103,22 +106,21 @@ GEM
       method_source (~> 1.0)
     racc (1.8.1)
     rainbow (3.1.1)
-    rake (13.0.6)
     regexp_parser (2.10.0)
-    rexml (3.4.1)
-    rspec (3.13.0)
+    rexml (3.4.4)
+    rspec (3.13.2)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
       rspec-mocks (~> 3.13.0)
-    rspec-core (3.13.3)
+    rspec-core (3.13.6)
       rspec-support (~> 3.13.0)
-    rspec-expectations (3.13.3)
+    rspec-expectations (3.13.5)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-mocks (3.13.2)
+    rspec-mocks (3.13.7)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-support (3.13.2)
+    rspec-support (3.13.7)
     rubocop (1.73.2)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
@@ -154,26 +156,26 @@ GEM
     standard-performance (1.7.0)
       lint_roller (~> 1.1)
       rubocop-performance (~> 1.24.0)
-    thor (1.3.2)
+    thor (1.5.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (3.1.4)
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
-    uri (1.0.3)
-    xxhash (0.6.0)
-    zeitwerk (2.7.2)
+    uri (1.1.1)
+    xxhash (0.7.0)
+    zeitwerk (2.7.4)
 
 PLATFORMS
+  arm64-darwin-25
   x86_64-darwin-20
   x86_64-darwin-22
   x86_64-linux
 
 DEPENDENCIES
   almost_standard!
-  kiba-extend (~> 4.1.0)!
+  kiba-extend!
   pry
-  rake
   rspec
   rspec-custom!
 
