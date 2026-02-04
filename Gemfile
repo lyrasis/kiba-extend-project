@@ -7,7 +7,6 @@ gem "kiba-extend", github: "lyrasis/kiba-extend", branch: "main"
 group :development do
   gem "almost_standard", github: "kspurgin/almost_standard", branch: "main"
   gem "pry"
-  gem "rake"
 end
 
 group :test do
