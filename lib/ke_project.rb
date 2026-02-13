@@ -28,6 +28,7 @@ module KeProject
   end
 
   extend Dry::Configurable
+
   # ## OVERRIDE KIBA::EXTEND'S DEFAULT OPTIONS
   #
   # The Kiba::Extend settings include:
