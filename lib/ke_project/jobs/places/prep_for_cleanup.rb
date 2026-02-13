@@ -18,8 +18,8 @@ module KeProject::Jobs::Places::PrepForCleanup
       transform do |row|
         row[:place].split("|||")
           .each do |pairstr|
-          pair = pairstr.split(": ")
-          row[pair[0]] = pair[1]
+            pair = pairstr.split(": ")
+            row[pair[0]] = pair[1]
         end
         row
       end
