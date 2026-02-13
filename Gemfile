@@ -12,6 +12,6 @@ end
 group :test do
   gem "rspec"
   gem "rspec-custom",
-    git: "https://github.com/kspurgin/rspec-custom.git",
+    github: "kspurgin/rspec-custom",
     branch: "main"
 end
