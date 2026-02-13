@@ -19,10 +19,10 @@ GIT
 
 GIT
   remote: https://github.com/lyrasis/kiba-extend.git
-  revision: 9b10866230b6d9d3f8bf15b2f9e3f56b1c756f16
+  revision: 127ff014465c286436dc9946026c0909f8fae916
   branch: main
   specs:
-    kiba-extend (5.1.0)
+    kiba-extend (6.0.0)
       activesupport
       amazing_print
       bigdecimal
@@ -33,7 +33,6 @@ GIT
       kiba-common
       marc
       measured
-      openssl (~> 3.3.1)
       thor
       xxhash (= 0.7.0)
       zeitwerk
@@ -75,7 +74,7 @@ GEM
       zeitwerk (~> 2.6)
     i18n (1.14.8)
       concurrent-ruby (~> 1.0)
-    json (2.10.2)
+    json (2.18.1)
     kiba (4.0.0)
     kiba-common (1.5.0)
       kiba (>= 3.0.0, < 5)
@@ -95,7 +94,6 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.0-x86_64-linux-gnu)
       racc (~> 1.4)
-    openssl (3.3.2)
     parallel (1.26.3)
     parser (3.3.7.3)
       ast (~> 2.4.1)
