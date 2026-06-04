@@ -108,10 +108,8 @@ Start setting up and running jobs!
 
 === Option 2: Build your project manually following patterns in this repo
 
-Pro:: less tedious find/replace and deleting stuff
+Pro:: less tedious deletion of comments and code you don't need
 Con:: easier to leave a necessary piece out or introduce typos/other errors
-
-
 
 == Notes on code organization
 
