@@ -71,6 +71,7 @@ module KeProject
     default: "backup",
     reader: true,
     constructor: proc { |value| File.join(datadir, value) }
+
   # You can create configs that can be hooked into to control other behavior in
   #   your project. This one is used by the
   #   `KeProject::RegistryData.register_type_prep_jobs` method.
@@ -118,6 +119,17 @@ module KeProject
 end
 
 KeProject.loader
+
+# If you plan on using the `thor job graph` command to generate dependency
+#   graphs of jobs in your project, use this setting to control the directory
+#   in which the diagram-related files will be saved. If not set in your
+#   project, these files will be saved in the `data` folder of your
+#   kiba-extend repo.
+# @note See https://lyrasis.github.io/kiba-extend/#mermaidrenderdep for
+#   the required dependencies to use this feature.
+Kiba::Extend::ProjectConfig.config.graph_dir = File.join(
+  Bundler.root, "data", "graphs"
+)
 
 # The following line is necessary if you wish to use
 # `Kiba::Extend::Mixins::IterativeCleanup` in your project.
