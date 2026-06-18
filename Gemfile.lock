@@ -19,20 +19,22 @@ GIT
 
 GIT
   remote: https://github.com/lyrasis/kiba-extend.git
-  revision: 36741215991a3ecd90d7204407026c6d8e21e200
-  branch: main
+  revision: 7e767484793e6f85003beaf1d509143defdb29c6
+  tag: 6.0.0.264
   specs:
     kiba-extend (6.0.0)
       activesupport
       amazing_print
       bigdecimal
       csv
+      diagram
       dry-configurable
       dry-container
       kiba
       kiba-common
       marc
       measured
+      mermaid
       psych
       thor
       xxhash (= 0.7.0)
@@ -63,6 +65,12 @@ GEM
     connection_pool (3.0.2)
     csv (3.3.5)
     date (3.5.1)
+    diagram (0.3.4)
+      dry-equalizer (>= 0.2)
+      dry-struct (>= 1.6.0)
+      dry-types (>= 1.0)
+      json
+      zeitwerk (>= 2.6)
     diff-lcs (1.6.2)
     drb (2.2.3)
     dry-configurable (1.3.0)
@@ -74,8 +82,28 @@ GEM
       concurrent-ruby (~> 1.0)
       logger
       zeitwerk (~> 2.6)
+    dry-equalizer (0.3.0)
+    dry-inflector (1.3.1)
+    dry-logic (1.6.0)
+      bigdecimal
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.1)
+      zeitwerk (~> 2.6)
+    dry-struct (1.8.1)
+      dry-core (~> 1.1)
+      dry-types (~> 1.8, >= 1.8.2)
+      ice_nine (~> 0.11)
+      zeitwerk (~> 2.6)
+    dry-types (1.9.1)
+      bigdecimal (>= 3.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.0)
+      dry-inflector (~> 1.0)
+      dry-logic (~> 1.4)
+      zeitwerk (~> 2.6)
     i18n (1.14.8)
       concurrent-ruby (~> 1.0)
+    ice_nine (0.11.2)
     io-console (0.8.2)
     json (2.19.3)
     kiba (4.0.0)
@@ -89,6 +117,9 @@ GEM
       rexml
     measured (3.2.1)
       activesupport (>= 5.2)
+    mermaid (0.0.6)
+      diagram (>= 0.3.4)
+      zeitwerk
     method_source (1.1.0)
     minitest (6.0.2)
       drb (~> 2.0)
@@ -215,12 +246,19 @@ CHECKSUMS
   connection_pool (3.0.2) sha256=33fff5ba71a12d2aa26cb72b1db8bba2a1a01823559fb01d29eb74c286e62e0a
   csv (3.3.5) sha256=6e5134ac3383ef728b7f02725d9872934f523cb40b961479f69cf3afa6c8e73f
   date (3.5.1) sha256=750d06384d7b9c15d562c76291407d89e368dda4d4fff957eb94962d325a0dc0
+  diagram (0.3.4) sha256=2401199abea154f92093b1ba6f9a464ee51e2b86121f57d89b02a51139d21d62
   diff-lcs (1.6.2) sha256=9ae0d2cba7d4df3075fe8cd8602a8604993efc0dfa934cff568969efb1909962
   drb (2.2.3) sha256=0b00d6fdb50995fe4a45dea13663493c841112e4068656854646f418fda13373
   dry-configurable (1.3.0) sha256=882d862858567fc1210d2549d4c090f34370fc1bb7c5c1933de3fe792e18afa8
   dry-container (0.11.0) sha256=23be9381644d47343f3bf13b082b4255994ada0bfd88e0737eaaadc99d035229
   dry-core (1.2.0) sha256=0cc5a7da88df397f153947eeeae42e876e999c1e30900f3c536fb173854e96a1
+  dry-equalizer (0.3.0) sha256=866c9245b98280696ee7799f14e0c89d19d0afe890832aaf914649f9c0bc5867
+  dry-inflector (1.3.1) sha256=7fb0c2bb04f67638f25c52e7ba39ab435d922a3a5c3cd196120f63accb682dcc
+  dry-logic (1.6.0) sha256=da6fedbc0f90fc41f9b0cc7e6f05f5d529d1efaef6c8dcc8e0733f685745cea2
+  dry-struct (1.8.1) sha256=033868594c45241540172bf1ebbc8bb76b72b4f0717072325deba38ac13e80f1
+  dry-types (1.9.1) sha256=baebeecdb9f8395d6c9d227b62011279440943e3ef2468fe8ccc1ba11467f178
   i18n (1.14.8) sha256=285778639134865c5e0f6269e0b818256017e8cde89993fdfcbfb64d088824a5
+  ice_nine (0.11.2) sha256=5d506a7d2723d5592dc121b9928e4931742730131f22a1a37649df1c1e2e63db
   io-console (0.8.2) sha256=d6e3ae7a7cc7574f4b8893b4fca2162e57a825b223a177b7afa236c5ef9814cc
   json (2.19.3) sha256=289b0bb53052a1fa8c34ab33cc750b659ba14a5c45f3fcf4b18762dc67c78646
   kiba (4.0.0) sha256=a45a0027e543bf289fbe65711ef75b1cf537c84244dfaaa1983660ee73676200
@@ -231,6 +269,7 @@ CHECKSUMS
   logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
   marc (1.4.0) sha256=89f31a66c21f5a11e8fcf65fe06d207e121fb45ac6b23abef403f9ce912c7d10
   measured (3.2.1) sha256=7f0330c4500741826374e7db6c05e75ab47e1899efd81a29ebf01e9ef9c5810b
+  mermaid (0.0.6) sha256=78c1999854d4bb46e42b741afee41e4042654c2c4c31b068a27e0a6b6401202f
   method_source (1.1.0) sha256=181301c9c45b731b4769bc81e8860e72f9161ad7d66dd99103c9ab84f560f5c5
   minitest (6.0.2) sha256=db6e57956f6ecc6134683b4c87467d6dd792323c7f0eea7b93f66bd284adbc3d
   nokogiri (1.19.2-aarch64-linux-gnu) sha256=c34d5c8208025587554608e98fd88ab125b29c80f9352b821964e9a5d5cfbd19
