@@ -1,0 +1,17 @@
+graph TD
+  orig__objects["orig__objects (supplied)"]
+  type__object_statuses["type__object_statuses"]
+  type__object_types["type__object_types"]
+  type__location_types["type__location_types"]
+  orig__object_statuses["orig__object_statuses (supplied)"]
+  orig__object_types["orig__object_types (supplied)"]
+  orig__location_types["orig__location_types (supplied)"]
+  prep_objects["prep_objects
+Final location authority records for import into target system"]
+  orig__objects --> prep_objects
+  type__object_statuses -- "lookup on :statusid" --> prep_objects
+  type__object_types -- "lookup on :typeid" --> prep_objects
+  type__location_types -- "lookup on :loctypeid" --> prep_objects
+  orig__object_statuses --> type__object_statuses
+  orig__object_types --> type__object_types
+  orig__location_types --> type__location_types
