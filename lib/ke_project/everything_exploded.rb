@@ -29,11 +29,14 @@ module KeProject
     # lookup: %i[a_lookup b_lookup]
     # ```
     #
-    # Note that any registry entry that will be used as a lookup needs to have
-    #   a `lookup_on` key defined in the registry entry. This is the
-    #   field/column name from that lookup data source that is expected to match
+    # Optionally, any registry entry that will be used as a lookup needs to have
+    #   a `lookup_on` key defined. This is the field/column name from the
+    #   lookup data source that will be used as the "index" for matching to
     #   values in the column used as the `keycolumn` parameter in your lookup
-    #   transform
+    #   transform. It is nice to set this in the registry entry if the same
+    #   field will always serve as the lookup. You can also set the `lookup_on`
+    #   per-use of the entry as a lookup. See [the "More flexible lookup
+    #   file definition" section of `Kiba::Extend::Jobs`](https://lyrasis.github.io/kiba-extend/Kiba/Extend/Jobs.html#flex-lookup)
     #
     # You can also have multiple sources, which are passed in as an Array of
     #   Symbols just like multiple lookups:
@@ -44,14 +47,19 @@ module KeProject
     #
     # Note that if you have multiple sources and are using a CSV destination,
     #   your job definition needs to ensure that all rows it produces have the
-    #   same fields, or you will get an error from the CSV writer. One strategy
-    #   for handling this is explained
-    #   [here](https://lyrasis.github.io/kiba-extend/file.common_patterns_tips_tricks.html#joining-the-rows-of-multiple-sources-that-may-have-different-fields)
+    #   same fields, or you will get an error from the CSV writer. You can
+    #   achieve this by using the `Clean::EnsureConsistentFields` transform at
+    #   the end of jobs with multiple sources, or with custom transforms that
+    #   might add a field to some rows, but not all rows.
     #
-    # @note It _is_ redundant to have to define the destination here since the
-    #   registry entry that calls this job definition itself defines the
-    #   destination. I want to refactor this out at some point, but for now it
-    #   stays
+    # @note It _is_ redundant to have to define the destination here
+    #   since the registry entry that calls this job definition itself defines
+    #   the file registry key entered here as the destination. HOWEVER, there
+    #   are some odd situations where you may want to conditionally set the
+    #   destination to a different file registry key based on state of the
+    #   project when the job is run. Also, I find it helpful to see all the
+    #   files involved in the job when looking at the job definition, so it
+    #   hasn't been a priority to streamline this.
     def hash_setting_up_dependencies
       {
         source: source,
@@ -99,6 +107,14 @@ module KeProject
       end
     end
 
+    # You can compose job definitions from multiple `Kiba.job_segment do`
+    #   blocks
+    def transformation_definition
+      base = [standard_transformation]
+      base << constant_merge if !today_is_odd?
+      base
+    end
+
     # Your job transformation logic always goes between `Kiba.job_segment do`
     #   and `end`
     #
@@ -114,14 +130,15 @@ module KeProject
     #   if you have done any metaprogrammy magic extension of your job
     #   definition modules, so the definition of the appropriate method may vary
     #   at runtime. The kiba-tms project uses this a lot.
-    def transformation_definition
+    def standard_transformation
+      # This sets up some Ruby magick you'll be able to access from within
+      #    `Kiba.job_segment` to allow you to use other methods from this module
       bind = binding
 
       Kiba.job_segment do
         job_def = bind.receiver # returns KeProject::EverythingExploded module
 
         get_today = -> { Date.today.to_s }
-
         transform Merge::ConstantValues, constantmap: {
           update_date: get_today.call,
           last_week: KeProject::EverythingExploded.get_last_week,
@@ -141,6 +158,7 @@ module KeProject
             .to_sym
           valfield = KeProject.type_tables[table]
           idfield = :"#{valfield}id"
+
           transform Merge::MultiRowLookup,
             lookup: send(lkup),
             keycolumn: idfield,
@@ -148,10 +166,6 @@ module KeProject
           transform Delete::Fields, fields: idfield
         end
       end
-
-      # You can compose job definitions from multiple `Kiba.job_segment do`
-      #   blocks
-      constant_merge if today_is_odd?
     end
 
     # Here we are setting up everything required to run another job. This job is
