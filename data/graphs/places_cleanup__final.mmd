@@ -1,0 +1,14 @@
+graph TD
+  places_cleanup__base_job_cleaned["places_cleanup__base_job_cleaned"]
+  places__prep_for_cleanup["places__prep_for_cleanup"]
+  places_cleanup__corrections["places_cleanup__corrections"]
+  orig__places["orig__places (supplied)"]
+  places_cleanup__returned_compiled["places_cleanup__returned_compiled"]
+  places_cleanup__file_returned_0["places_cleanup__file_returned_0 (supplied)"]
+  places_cleanup__final["places_cleanup__final"]
+  places_cleanup__base_job_cleaned --> places_cleanup__final
+  places__prep_for_cleanup --> places_cleanup__base_job_cleaned
+  places_cleanup__corrections -- "lookup on :fingerprint" --> places_cleanup__base_job_cleaned
+  orig__places --> places__prep_for_cleanup
+  places_cleanup__returned_compiled --> places_cleanup__corrections
+  places_cleanup__file_returned_0 --> places_cleanup__returned_compiled
