@@ -16,27 +16,29 @@ module KeProject
       # You can do `thor jobs:tagged orig` to verify that these are in your
       #   registry.
       #
-      # If you are NOT doing anything fancy, you can take this line out.
+      # If you are NOT doing anything fancy, you can delete this section and
+      #  the method definition lower in this file for `register_dir_files`
       register_dir_files(
         dir: File.join(KeProject.datadir, "source_system_data"), ns: "orig"
       )
 
       # If the files, jobs, and transformations all follow a pattern, you can do
       #   fancier stuff like this. For further info, see the
-      #   [tips/tricks/common patterns doc page for kiba-extend](https://lyrasis.github.io/kiba-extend/file.common_patterns_tips_tricks.html#automating-repetitive-file-registry)
+      #   [tips/tricks/common patterns doc page for kiba-extend](https://lyrasis.github.io/kiba-extend/file.common_patterns_tips_tricks.html#auto-register)
       #   and examples in projects linked from there.
       #
-      # If you are NOT doing anything fancy, you can take this line out.
+      # If you are NOT doing anything fancy, you can delete this line and the
+      # method definition lower in this file for `register_type_prep_jobs`
       register_type_prep_jobs
 
-      # The rest of the lines in this method are required!
-      #
-      # This populates the registry with the manually defined entries
+      # **This line is required.**  Calling `register_files` populates the
+      #   registry with the manually defined entries you will enter
       register_files
 
-      # This needs to be added if you are using the IterativeCleanup mixin
-      #  in your project. It causes all the automagically defined cleanup jobs
-      #  to be registered.
+      # It's recommended you leave this in place in case you decide to use
+      #   the IterativeCleanup mixin in your project at some point.
+      #  It causes all the automagically defined cleanup jobs
+      #  to be registered. If there are none, it doesn't hurt anything.
       Kiba::Extend::Utils::IterativeCleanupJobRegistrar.call
 
       # Calling :finalize on the registry just calls :transform and then :freeze
@@ -66,10 +68,9 @@ module KeProject
       #   `:transform` on it.
       #
       # If you need to redefine aspects of
-      #   Kiba::Extend::Registry::FileRegistryEntry objects during run of
-      #   jobs/dependencies, theoretically you can do that if you do not freeze
-      #   the registry. I have not ever needed to do this, so I don't have
-      #   patterns for it or know what the fuller implications might be.
+      #   `Kiba::Extend::Registry::FileRegistryEntry` objects during run of
+      #   jobs/dependencies, after the registry is frozen, see [Manipulating
+      #   the registry on the fly](https://lyrasis.github.io/kiba-extend/file.common_patterns_tips_tricks.html#manipulate-registry)
       KeProject.registry.finalize
     end
 
@@ -154,12 +155,6 @@ module KeProject
     # Documentation reference on the registry entry data format:
     #   See
     #   {https://lyrasis.github.io/kiba-extend/file.file_registry_entry.html}
-    #
-    # @note I think I modeled the Kiba::Extend::Registry::FileRegistryEntry in
-    #   a wrong-headed way that is making it difficult for me to handle other
-    #   source/destination types. I hope to be able to re-build that in a more
-    #   flexible way without drastically changing the format you would enter
-    #   here, but this might be a little unstable.
     def register_files
       # This entry illustrates that entries don't have to be in a namespace at
       #   all.
@@ -182,8 +177,9 @@ module KeProject
       #   I currently typically use when it's a normal "one entry per job with
       #   nothing very fancy" setup:
       #
-      # I make a "Jobs" level to separate job definitions from transforms. In
-      #   that, there is one module per registry namespace, with a submodule for
+      # I make a `Jobs` level to separate job definitions from transforms and
+      #   any configuration modules. In `Jobs`, there is one module per registry
+      #   namespace, with a submodule for
       #   each job defined within that module. This feels more "in the ruby
       #   spirit" of one file per class or behavior. I also find it easier
       #   to keep track of my work with this model.

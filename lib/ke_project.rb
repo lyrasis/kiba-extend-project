@@ -66,30 +66,34 @@ module KeProject
   # If I want to be lazy I can define this to avoid typing out full directory
   #   paths. It also makes a nice example for using a constructor:
   setting :derived_dirs,
-    default: %w[for_import working],
     reader: true,
+    default: %w[for_import working],
     constructor: proc { |value| value.map { |dir| File.join(datadir, dir) } }
   setting :backup_dir,
-    default: "backup",
     reader: true,
+    default: "backup",
     constructor: proc { |value| File.join(datadir, value) }
 
-  # You can create configs that can be hooked into to control other behavior in
-  #   your project. This one is used by the
-  #   `KeProject::RegistryData.register_type_prep_jobs` method.
+  # You can create configs that can be used to control other behavior in
+  #   your project. This is a great way to ensure consistent values are used in
+  #   different contexts throughout your code. This one is used by:
+  #
+  # - `KeProject::RegistryData.register_type_prep_jobs`
+  # - `KeProject::EverythingExploded.lookups`
+  # - `KeProject::EverythingExploded.transformation_definition`
   setting :type_tables,
+    reader: true,
     default: {
       object_statuses: :status,
       object_types: :type,
       location_types: :loctype
-    },
-    reader: true
+    }
   # For instance, if locations have already been cleaned up, you can use the
   #   cleaned file as a source for a job, but if clean up has not been done,
   #   use the supplied legacy location file. See
   #   `/lib/ke_project/everything_exploded.rb` for an example using this config
   #   setting.
-  setting :locations_cleaned, default: true, reader: true
+  setting :locations_cleaned, reader: true, default: true
 
   # ## Override Kiba::Extend pre-job task settings
   #
@@ -134,17 +138,17 @@ Kiba::Extend::ProjectConfig.config.graph_dir = File.join(
 )
 
 # The following line is necessary if you wish to use
-# `Kiba::Extend::Mixins::IterativeCleanup` in your project.
+#   `Kiba::Extend::Mixins::IterativeCleanup` or the
+#   `Kiba::Extend.reset_registry` method in your project.
 Kiba::Extend.config.config_namespaces = [KeProject]
 
 # This sets up your file registry. Dig into
 #   `lib/ke_project/registry_data.rb` for more details on this.
 #
-# If you are not using IterativeCleanup in your project, this can go
-#   at the end of the main KeProject (or equivalent) module definition
-#   (or it can stay here). However, if you are using IterativeCleanup,
-#   the following things need to happen in order: (1) Your client
-#   project gets loaded, which loads kiba-extend (and kiba-tms or any
+# It is recommended you leave this here, to support any future use
+#   of IterativeCleanup or `Kiba::Extend.reset_registry` in your project.
+#  IterativeCleanup requires the following things need to happen in order:
+#  (1) Your project gets loaded, which loads kiba-extend (and kiba-tms or any
 #   other intervening application layer); (2) kiba-extend
 #   `config_namespaces` gets set, so it will know where to look for
 #   config modules that may extend IterativeCleanup; and (3) all job
