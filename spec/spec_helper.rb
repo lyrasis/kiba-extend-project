@@ -15,13 +15,34 @@ end
 require_relative "../lib/ke_project"
 
 # A custom rspec matcher to compare expected and given CSVs and provide a usable
-#   diff. Use this if you are testing the output of a job. See example of use in
-#   https://github.com/lyrasis/kiba-tms/blob/main/spec/kiba/tms/mixins/reportable_for_table_spec.rb
+#   diff. Use this if you are testing the output of a job that has been
+#   finalized, when the input data will not be changing. See the
+#   `:locations_clean` test in `./spec/ke_project/jobs/locations_spec.rb` for an
+#   example of basic usage.
 require "rspec/custom/matchers/match_csv"
+
+# Allows addition of `#reset_config` method for Modules/Classes that extend or
+#   include dry-configurable.
+require "dry/configurable/test_interface"
+
+# Adds `#reset_config` method to project's base module, allowing you to set
+#   configuration settings for individual tests or test groups, then
+#   reset to default after
+module KeProject
+  enable_test_interface
+end
 
 RSpec.configure do |config|
   config.extend KeProject
+
+  # This is kiba-extend's spec helpers module which we pulled in above
   config.include Helpers
+
+  # https://lyrasis.github.io/kiba-extend/Kiba/Extend/Utils/TestHelpers.html
+  #   Convenience methods for testing different types of job output
+  # @note Currently only supports CSV job output
+  config.include Kiba::Extend::Utils::TestHelpers
+
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
 

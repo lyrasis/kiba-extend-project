@@ -59,7 +59,9 @@ module KeProject
   #   https://github.com/lyrasis/kiba-tms and private client projects using it.
   #
   # Base directory for project files
-  setting :datadir, default: File.expand_path("data"), reader: true
+  setting :datadir,
+    reader: true,
+    default: File.join(Bundler.root, "data")
 
   # If I want to be lazy I can define this to avoid typing out full directory
   #   paths. It also makes a nice example for using a constructor:
