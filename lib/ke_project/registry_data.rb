@@ -203,8 +203,7 @@ module KeProject
             "loc_clean_and_reversed.csv"),
           creator: KeProject::Jobs::Locations::CleanRev,
           lookup_on: :location_id,
-          desc: "Location values from source system, cleaned up for further "\
-            "mapping",
+          desc: "Adds reversed cleaned location names",
           tags: %i[authority location]
         }
 
