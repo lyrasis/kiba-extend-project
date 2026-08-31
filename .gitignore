@@ -5,6 +5,7 @@
 docs
 data/backup
 data/endpoint/**/*.json
+data/endpoint/**/*.xml
 data/for_import/**/*.csv
 data/working/**/*.csv
 **/*.csv#
