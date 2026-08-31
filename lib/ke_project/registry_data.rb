@@ -228,6 +228,53 @@ module KeProject
           tags: %i[authority place]
         }
       end
+
+      # Barebones sample demonstrating how kiba-extend supports XML.
+      #
+      # This code sets up entries for the XML data source (orig__ead,
+      # a sample XML EAD file from the Society of American Archivists:
+      #
+      # https://github.com/saa-ead-roundtable/ead3-toolkit
+      #
+      # ...and a small job that shows how to use the pipeline pattern
+      # for real data.
+      #
+      # Input for the sample job is in data/source_system_data/ead/.
+      # Output from the sample job is written to data/endpoint/ead/.
+      # Input and output filenames should match.
+      #
+      # The source registration:
+      KeProject.registry.namespace("orig") do
+        register :ead, {
+          path: File.join(KeProject.datadir, "source_system_data", "ead"),
+          supplied: true,
+          src_class: Kiba::Extend::Sources::XmlDir,
+          # Here, you can pass a set of options that control
+          # parser behavior and other aspects of the XmlDir
+          # Source:
+          #
+          # lyrasis.github.io/kiba-extend/Kiba/Extend/Sources/XmlDir.html
+          #
+          # As documented above, the `remove_namespaces` argument
+          # strips the default namespace so that transforms
+          # are simpler to write, especially with XPath queries
+          # (use the plain element name instead of writing
+          # out namespaces).
+          src_opt: {remove_namespaces: true},
+          tags: %i[ead xml]
+        }
+      end
+
+      # The job registration:
+      KeProject.registry.namespace("ead") do
+        register :prep, {
+          path: File.join(KeProject.datadir, "endpoint", "ead"),
+          dest_class: Kiba::Extend::Destinations::XmlDir,
+          creator: KeProject::Jobs::Ead::Prep,
+          desc: "Sample job for transforming XML documents",
+          tags: %i[ead xml]
+        }
+      end
     end
     private_class_method :register_files
   end
